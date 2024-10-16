@@ -120,7 +120,7 @@ class ft_api():
         items = []
         done = False
         params["page[size]"] = 100
-        i = 0
+        i = 1
         cnt = 0
         while i <= max_page + 1:
             if (done == True):
@@ -140,9 +140,7 @@ class ft_api():
                 if (type(e) == Error_auth):
                     raise e 
             current = resp.json()
-            for x in current:
-                items.append(x)
-            print(i)
+            items.append(current)
             if (int(resp.headers.get("x-Page")) > i):
                 done = True
             i += 1
