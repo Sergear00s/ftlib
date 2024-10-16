@@ -107,7 +107,14 @@ class ft_api():
             raise Error_response(f'{response, response.json()}')
         if (response.status_code == codes[1]):
             raise Error_auth(f'{response, response.json()}')
-
+        
+    def next(self, resp):
+        link_header = resp.headers.get('Link')
+        if link_header and 'rel="next"' in link_header:
+            return True
+        else:
+            return False
+        
     @tokenizer
     def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 100 ) -> list:
         items = []
@@ -121,12 +128,10 @@ class ft_api():
             if (i % 8 == 0):
                 time.sleep(0.2)
             params["page[number]"] = i
-            print(params)
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
             try:
                 self.eval_resp(resp)
             except Exception as e:
-                print(e)
                 if type(e) == Error_response:
                     cnt += 1
                     if (cnt > 15):
@@ -137,8 +142,8 @@ class ft_api():
             current = resp.json()
             for x in current:
                 items.append(x)
-            if current.__len__() <= 0:
-                done == True
+            if not self.next(resp):
+                done = True
             i += 1
         return items
 
