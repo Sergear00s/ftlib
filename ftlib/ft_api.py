@@ -121,11 +121,11 @@ class ft_api():
             if (i % 8 == 0):
                 time.sleep(0.2)
             params["page[number]"] = i
+            print(params)
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
             try:
                 self.eval_resp(resp)
             except Exception as e:
-                print("exx ", e)
                 if type(e) == Error_response:
                     cnt += 1
                     if (cnt > 15):
