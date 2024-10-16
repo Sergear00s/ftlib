@@ -129,16 +129,7 @@ class ft_api():
                 time.sleep(0.2)
             params["page[number]"] = i
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
-            try:
-                self.eval_resp(resp)
-            except Exception as e:
-                if type(e) == Error_response:
-                    cnt += 1
-                    if (cnt > 15):
-                        raise e
-                    continue
-                if (type(e) == Error_auth):
-                    raise e 
+            self.eval_resp(resp)
             current = resp.json()
             items.append(current)
             if (int(resp.headers.get("x-Page")) > i):
