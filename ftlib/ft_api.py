@@ -133,8 +133,7 @@ class ft_api():
             current = resp.json()
             items.append(current)
             size = int(int(resp.headers.get("X-Total")) // 100)
-            print(size)
-            if ((size + 1) < i ):
+            if ((size) < i ):
                 done = True
             i += 1
         return items
