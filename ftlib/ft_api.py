@@ -3,7 +3,7 @@ import time
 import threading
 from .Users import Users
 from .journal import *
-
+from .Exceptions import Error_response, Error_auth
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):
@@ -100,11 +100,21 @@ class ft_api():
                     items.append(value)
         return items
     
+
+    def eval_resp(self, response):
+        codes = [500, 400, 401, 403, 404, 422]
+        if (response.status_code == codes[0]):
+            raise Error_response(f'{response, response.json()}')
+        if (response.status_code == codes[1]):
+            raise Error_auth(f'{response, response.json()}')
+
+    @tokenizer
     def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 100 ) -> list:
         items = []
         done = False
         params["page[size]"] = 100
         i = 0
+        cnt = 0
         while i <= max_page + 1:
             if (done == True):
                 break
@@ -112,20 +122,23 @@ class ft_api():
                 time.sleep(0.2)
             params["page[number]"] = i
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
-            if (resp.status_code == 500):
-                time.sleep(1)
-                continue
-            if (resp.status_code == 200):
-                d = resp.json()
-                if (d.__len__() <= 0):
-                    done = True
-                for x in d:
-                    items.append(x)
-            i = i + 1
+            try:
+                self.eval_resp(resp)
+            except Exception as e:
+                if type(e) == Error_response:
+                    cnt += 1
+                    if (cnt > 15):
+                        done = True
+                    continue
+                if (type(e) == Error_auth):
+                    raise e 
+            current = resp.json()
+            for x in current:
+                items.append(x)
+            if current.__len__() <= 0:
+                done == True
         return items
 
     def __str__(self) -> str:
         return str({"Conf": self.__config})
         
-
-
