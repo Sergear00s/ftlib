@@ -132,7 +132,9 @@ class ft_api():
             self.eval_resp(resp)
             current = resp.json()
             items.append(current)
-            if (int(resp.headers.get("x-Page")) > i):
+            size = int(resp.headers.get("x-Page"))
+            print(size)
+            if (size > i ):
                 done = True
             i += 1
         return items
