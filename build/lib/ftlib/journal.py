@@ -14,7 +14,7 @@ class Journal():
         lst = keys.keys()
         for i in lst:
             params[i] = keys[i]
-        pages = self.__api.s_request(self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
+        pages = self.__api.page_request(self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
         rtn = []
         for i in pages:
             for x in i:

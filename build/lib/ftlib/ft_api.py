@@ -100,30 +100,6 @@ class ft_api():
                     items.append(value)
         return items
     
-    def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 100 ) -> list:
-        items = []
-        done = False
-        params["page[size]"] = 100
-        i = 0
-        while i <= max_page + 1:
-            if (done == True):
-                break
-            if (i % 8 == 0):
-                time.sleep(0.2)
-            params["page[number]"] = i
-            resp = requests.get(endpoint, headers=headers, params=params, data=data)
-            if (resp.status_code == 500):
-                time.sleep(1)
-                continue
-            if (resp.status_code == 200):
-                d = resp.json()
-                if (d.__len__() <= 0):
-                    done = True
-                for x in d:
-                    items.append(x)
-            i = i + 1
-        return items
-
     def __str__(self) -> str:
         return str({"Conf": self.__config})
         
