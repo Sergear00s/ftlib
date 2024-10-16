@@ -121,7 +121,7 @@ class ft_api():
             if (i % 8 == 0):
                 time.sleep(0.2)
             params["page[number]"] = i
-            print(params)
+            print("test\n")
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
             try:
                 self.eval_resp(resp)
