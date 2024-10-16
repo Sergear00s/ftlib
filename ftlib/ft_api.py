@@ -142,7 +142,8 @@ class ft_api():
             current = resp.json()
             for x in current:
                 items.append(x)
-            if (resp.headers.get("x-Page") > i):
+            print(i)
+            if (int(resp.headers.get("x-Page")) > i):
                 done = True
             i += 1
         return items
