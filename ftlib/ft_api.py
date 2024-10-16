@@ -125,6 +125,7 @@ class ft_api():
             try:
                 self.eval_resp(resp)
             except Exception as e:
+                print("exx ", e)
                 if type(e) == Error_response:
                     cnt += 1
                     if (cnt > 15):
