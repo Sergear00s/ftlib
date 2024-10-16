@@ -128,7 +128,7 @@ class ft_api():
                 if type(e) == Error_response:
                     cnt += 1
                     if (cnt > 15):
-                        done = True
+                        raise e
                     continue
                 if (type(e) == Error_auth):
                     raise e 
@@ -137,6 +137,7 @@ class ft_api():
                 items.append(x)
             if current.__len__() <= 0:
                 done == True
+            i += 1
         return items
 
     def __str__(self) -> str:
