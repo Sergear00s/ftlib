@@ -87,11 +87,17 @@ class Journal():
         if (len(keys) == 1):
             param["filter[item_type]"] = keys[0]
         param["filter[campus_id]"] = self.__api.campus_id
-        lst = self.__journal(begin_at, end_at, param)
+    
+    #    lst = self.__journal(begin_at, end_at, param)
         id_list = []
         for l in logins:
             ids = self.__api.Users.get_user_id_by_login(l)
             id_list.append((l, ids))
+        line_ids = ""
+        for i in id_list:
+            line_ids += ",".join(i[1])
+        param["filter[user_id]"] = line_ids
+        lst = self.__journal(begin_at, end_at, param)
         rtn = {}
         for i in id_list:
             rtn[i[0]] = self.__gather(i[1], lst)
