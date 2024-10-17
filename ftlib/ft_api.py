@@ -79,7 +79,7 @@ class Ftlib():
         
         
     @tokenizer
-    def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
+    def s_request(self, req_func : function,endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
         items = []
         done = False
         params["page[size]"] = 100
@@ -89,7 +89,7 @@ class Ftlib():
             if (done == True):
                 break
             params["page[number]"] = i
-            resp = requests.get(endpoint, headers=headers, params=params, data=data)
+            resp = req_func(endpoint, headers=headers, params=params, data=data)
             try:
                 self.eval_resp(resp)
                 ex_cnt = 0

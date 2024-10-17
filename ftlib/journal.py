@@ -1,6 +1,7 @@
 from .Exceptions import UserIdNotFound
 from .Exceptions import RateLimit
 import time
+import requests
 class Journal():
     def __init__(self, api) -> None:
         self.__api = api
@@ -11,7 +12,7 @@ class Journal():
         lst = keys.keys()
         for i in lst:
             params[i] = keys[i]
-        pages = self.__api.s_request(self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
+        pages = self.__api.s_request(requests.get, self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
         rtn = []
         for i in pages:
             for x in i:

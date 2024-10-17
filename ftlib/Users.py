@@ -12,7 +12,7 @@ class Users:
         if (self.__api.token_check() is False):
             self.__api.update_token()
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp : list = self.__api.s_request(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+        resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
         #resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
         #self.__api.eval_resp(resp)
         try:
