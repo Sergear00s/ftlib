@@ -82,7 +82,8 @@ class Journal():
         if (len(keys)):
             param["filter[item_type]"] = ",".join(keys)
         else:
-            param["filter[item_type]"] = "Internship,User,ScaleTeam,Experiance"
+            pass
+            #param["filter[item_type]"] = "Internship,User,ScaleTeam,Experiance"
         param["filter[campus_id]"] = self.__api.campus_id
         id_list = []
         for l in logins:
