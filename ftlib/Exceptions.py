@@ -14,4 +14,6 @@ class RateLimit(Exception):
     def __init__(self, message):
         super().__init__(message)
 
-
+class UserIdNotFound(Exception):
+    def __init__(self, message):
+        super().__init__(message)

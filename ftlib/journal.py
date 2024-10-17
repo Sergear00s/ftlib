@@ -1,4 +1,6 @@
-
+from .Exceptions import UserIdNotFound
+from .Exceptions import RateLimit
+import time
 class Journal():
     def __init__(self, api) -> None:
         self.__api = api
@@ -71,7 +73,13 @@ class Journal():
 
 
 
-    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False):
+    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False) -> dict:
+        """
+            logins : list of users
+            begin_at: "yyy-mm-dd",
+            end_at: "yyy-mm-dd"
+            return type: dict
+        """
         keys = []
         if (intern):
             keys.append("Internship")
@@ -87,11 +95,19 @@ class Journal():
         if (len(keys) == 1):
             param["filter[item_type]"] = keys[0]
         param["filter[campus_id]"] = self.__api.campus_id
-    
-    #    lst = self.__journal(begin_at, end_at, param)
         id_list = []
         for l in logins:
-            ids = self.__api.Users.get_user_id_by_login(l)
+            while True:
+                try:
+                    ids = self.__api.Users.get_user_id_by_login(l)
+                except RateLimit as e:
+                    time.sleep(1)
+                    continue
+                except Exception as e:
+                    raise
+                break
+            if (ids == 0):
+                raise UserIdNotFound(f"{l}'s id is not found!")
             id_list.append((l, ids))
         line_ids = ""
         for i in id_list:
