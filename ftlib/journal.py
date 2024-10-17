@@ -85,16 +85,8 @@ class Journal():
             param["filter[item_type]"] = "Internship,User,ScaleTeam,Experience"
         param["filter[campus_id]"] = self.__api.campus_id
         id_list = []
-        for l in logins:
-            while True:
-                try:
-                    ids = self.__api.Users.get_user_id_by_login(l)
-                except RateLimit as e:
-                    time.sleep(1)
-                    continue
-                except Exception as e:
-                    raise
-                break
+        for l in logins:        
+            ids = self.__api.Users.get_user_id_by_login(l)
             if (ids == 0):
                 raise UserIdNotFound(f"{l}'s id is not found!")
             id_list.append((l, ids))

@@ -84,6 +84,7 @@ class Ftlib():
         done = False
         params["page[size]"] = 100
         i = 1
+        ex_cnt = 0
         while i <= max_page + 1:
             if (done == True):
                 break
@@ -91,8 +92,13 @@ class Ftlib():
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
             try:
                 self.eval_resp(resp)
+                ex_cnt = 0
             except RateLimit as e:
                 time.sleep(1)
+                ex_cnt += 1
+                if ex_cnt > 4:
+                    raise RateLimit(resp)
+                continue
             except Exception as e:
                 raise
             current = resp.json()
