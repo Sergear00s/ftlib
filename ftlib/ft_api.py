@@ -1,7 +1,7 @@
 import requests
 import time
 from .Users import Users
-from .journal import *
+from .journal import Journal
 from .Exceptions import Error_response, Error_auth, RateLimit
 
 def tokenizer(func):
