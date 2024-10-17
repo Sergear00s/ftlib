@@ -10,7 +10,7 @@ def tokenizer(func):
         return func(self, *args, **kwargs)
     return wrapper
 
-class ft_api():
+class Ftlib():
     def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = 49 ) -> None:
 
         ##public
