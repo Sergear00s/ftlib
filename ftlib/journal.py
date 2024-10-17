@@ -62,7 +62,7 @@ class Journal():
         return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :ids})
     
 
-    def __gather(ids, lst):
+    def __gather(self, ids, lst):
         rtn = []
         for i in lst:
             if i["user_id"] == ids:
