@@ -41,7 +41,7 @@ class Journal():
             end_at: "yyy-mm-dd"
         """
         ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :ids})
     
     def get_intra_usage(self, login:str, begin_at:str, end_at:str):
         """
@@ -50,7 +50,7 @@ class Journal():
             end_at: "yyy-mm-dd"
         """
         ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"User",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" :ids})
     
     def get_interns(self, login:str, begin_at:str, end_at:str):
         """
@@ -59,7 +59,7 @@ class Journal():
             end_at: "yyy-mm-dd"
         """
         ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"Internship",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :ids})
     
 
     def __gather(ids, lst):
