@@ -79,7 +79,7 @@ class Ftlib():
         
         
     @tokenizer
-    def s_request(self, req_func : function,endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
+    def s_request(self, req_func, endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
         items = []
         done = False
         params["page[size]"] = 100
