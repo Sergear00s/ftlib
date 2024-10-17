@@ -1,4 +1,0 @@
-Metadata-Version: 2.1
-Name: ftlib
-Version: 1
-Requires-Dist: requests>=2.31.0
