@@ -1,5 +1,4 @@
 import requests
-from .ft_api import ft_api
 class Users:
     def __init__(self, api : ft_api) -> None:
         self.__api = api
