@@ -18,23 +18,6 @@ class Journal():
                 rtn.append(x)
         return rtn
 
-    # def journal(self,begin_at:str, end_at:str, login : str, keys : dict = None):
-    #     user_id = self.__api.Users.get_user_id_by_login(login)
-    #     if user_id == 0:
-    #         raise Exception("Users.get_user_id_by_login is returned 0")
-    #     params = {
-    #             "filter[user_id]" : user_id,
-    #         }
-    #     data = {"begin_at": begin_at, "end_at": end_at}
-    #     lst = keys.keys()
-    #     for i in lst:
-    #         params[i] = keys[i]
-    #     pages = self.__api.s_request(self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
-    #     rtn = []
-    #     for i in pages:
-    #         for x in i:
-    #             rtn.append(x)
-    #     return rtn
     
     def get_evo(self, login:str, begin_at:str, end_at:str):
         """
@@ -42,8 +25,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
     
     def get_intra_usage(self, login:str, begin_at:str, end_at:str):
         """
@@ -51,8 +33,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" : self.__api.Users.get_user_id_by_login(login)})
     
     def get_interns(self, login:str, begin_at:str, end_at:str):
         """
@@ -60,8 +41,15 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        ids = self.__api.Users.get_user_id_by_login(login)
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :ids})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
+
+    def get_xp(self, login:str, begin_at:str, end_at:str):
+        """
+            login: username,
+            begin_at: "yyy-mm-dd",
+            end_at: "yyy-mm-dd"
+        """
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Experiance",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
     
 
     def __gather(self, ids, lst):
@@ -72,8 +60,7 @@ class Journal():
         return rtn
 
 
-
-    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False) -> dict:
+    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False, experiance=False, location=False) -> dict:
         """
             logins : list of users
             begin_at: "yyy-mm-dd",
@@ -87,13 +74,15 @@ class Journal():
             keys.append("User")
         if (evaluation):
             keys.append("ScaleTeam")
+        if (experiance):
+            keys.append("Experiance")
+        if (location):
+            keys.append("Location")
         param = {}
-        if (len(keys) == 3):
-            param["filter[item_type]"] = keys[0] + "," + keys[1] + "," + keys[2]
-        if (len(keys) == 2):
-            param["filter[item_type]"] = keys[0] + "," + keys[1]
-        if (len(keys) == 1):
-            param["filter[item_type]"] = keys[0]
+        if (len(keys)):
+            param["filter[item_type]"] = ",".join(keys)
+        else:
+            param["filter[item_type]"] = "Internship,User,ScaleTeam,Experiance"
         param["filter[campus_id]"] = self.__api.campus_id
         id_list = []
         for l in logins:
