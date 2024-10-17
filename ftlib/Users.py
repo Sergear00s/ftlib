@@ -11,8 +11,9 @@ class Users:
         if (self.__api.token_check() is False):
             self.__api.update_token()
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
-        self.__api.eval_resp(resp)
+        resp = self.__api.s_request(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+        #resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+        #self.__api.eval_resp(resp)
         jsn = resp.json()
         if (jsn and len(jsn)>0):
             return int(jsn[0]["id"])
