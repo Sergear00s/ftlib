@@ -10,4 +10,8 @@ class Error_auth(Exception):
         super().__init__(message)
 
 
+class RateLimit(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
 

@@ -1,18 +1,20 @@
 import requests
+from .ft_api import ft_api
 class Users:
-    def __init__(self, api) -> None:
-        self.api = api
+    def __init__(self, api : ft_api) -> None:
+        self.__api = api
 
     def get_user_id_by_login(self, login : str) -> int:
-        """return type int
         """
-        if (self.api.token_check() is False):
-            self.api.update_token()
-        params = {"filter[login]": login, "filter[primary_campus_id]": self.api.campus_id}
-        resp = requests.get(f"{self.api.endpoint}/v2/users", params=params, headers=self.api.header)
-        if (resp.status_code == 200):
-            jsn = resp.json()
-            if (jsn):
-                if (jsn[0]):
-                    return int(jsn[0]["id"])
+            login: user login,
+            return value: user id
+        """
+        if (self.__api.token_check() is False):
+            self.__api.update_token()
+        params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
+        resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+        self.__api.eval_resp(resp)
+        jsn = resp.json()
+        if (jsn and len(jsn)>0):
+            return int(jsn[0]["id"])
         return 0

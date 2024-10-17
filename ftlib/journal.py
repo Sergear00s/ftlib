@@ -22,12 +22,27 @@ class Journal():
         return rtn
     
     def get_evo(self, login:str, begin_at:str, end_at:str):
+        """
+            login: username,
+            begin_at: "yyy-mm-dd",
+            end_at: "yyy-mm-dd"
+        """
         return self.journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"ScaleTeam"})
     
     def get_intra_usage(self, login:str, begin_at:str, end_at:str):
+        """
+            login: username,
+            begin_at: "yyy-mm-dd",
+            end_at: "yyy-mm-dd"
+        """
         return self.journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"User"})
     
     def get_interns(self, login:str, begin_at:str, end_at:str):
+        """
+            login: username,
+            begin_at: "yyy-mm-dd",
+            end_at: "yyy-mm-dd"
+        """
         return self.journal(begin_at=begin_at, end_at=end_at, login=login, keys={"filter[item_type]":"Internship"})
     
     

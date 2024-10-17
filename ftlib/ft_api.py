@@ -1,9 +1,8 @@
 import requests
 import time
-import threading
 from .Users import Users
 from .journal import *
-from .Exceptions import Error_response, Error_auth
+from .Exceptions import Error_response, Error_auth, RateLimit
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):
@@ -12,7 +11,7 @@ def tokenizer(func):
     return wrapper
 
 class ft_api():
-    def __init__(self, intra_uid : str, intra_secret: str, scopes="", campus_id=49) -> None:
+    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = 49 ) -> None:
 
         ##public
         self.Users = Users(self)
@@ -68,68 +67,34 @@ class ft_api():
                 "Authorization": f"Bearer {self.token['access_token']}"
         }
 
-    def __th(self, args:list, rtn, func):
-        resp = func(args[0], headers=args[1], params=args[2], data=args[3])
-        rtn[args[4]] = resp
-
-    @tokenizer
-    def page_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 100 ) -> list:
-        items = []
-        done = False
-        params["page[size]"] = 100
-        i = 0
-        while i <= max_page + 1:
-            time.sleep(1)
-            if done:
-                break
-            ths = [0, 0, 0, 0, 0, 0, 0, 0]
-            values = {}
-            for x in range(8):
-                values[x] = None
-                params["page[number]"] = i
-                ths[x] = threading.Thread(target=self.__th, args=[[endpoint, headers, params, data, x], values, requests.get])
-                ths[x].start()
-                i = i + 1
-            for x in range(8):
-                ths[x].join()
-            for x in range(8):
-                if (values[x] is not None and values[x].status_code == 200):
-                    value = values[x].json()
-                    if (value.__len__() <= 0):
-                        done = True
-                    items.append(value)
-        return items
-    
 
     def eval_resp(self, response):
-        codes = [500, 400, 401, 403, 404, 422]
+        codes = [500, 400, 429,401, 403, 404, 422]
         if (response.status_code == codes[0]):
             raise Error_response(f'{response, response.json()}')
         if (response.status_code == codes[1]):
             raise Error_auth(f'{response, response.json()}')
+        if (response.status_code == codes[2]):
+            raise RateLimit("RateLimit")
         
-    def next(self, resp):
-        link_header = resp.headers.get('Link')
-        if link_header and 'rel="next"' in link_header:
-            return True
-        else:
-            return False
         
     @tokenizer
-    def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 100 ) -> list:
+    def s_request(self, endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
         items = []
         done = False
         params["page[size]"] = 100
         i = 1
-        cnt = 0
         while i <= max_page + 1:
             if (done == True):
                 break
-            if (i % 8 == 0):
-                time.sleep(0.2)
             params["page[number]"] = i
             resp = requests.get(endpoint, headers=headers, params=params, data=data)
-            self.eval_resp(resp)
+            try:
+                self.eval_resp(resp)
+            except RateLimit as e:
+                time.sleep(1)
+            except Exception as e:
+                raise
             current = resp.json()
             items.append(current)
             size = int(int(resp.headers.get("X-Total")) // 100)
@@ -138,6 +103,7 @@ class ft_api():
             i += 1
         return items
 
+
     def __str__(self) -> str:
-        return str({"Conf": self.__config})
+        return self.token
         
