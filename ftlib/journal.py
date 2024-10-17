@@ -95,7 +95,7 @@ class Journal():
             id_list.append((l, ids))
         line_ids = ""
         for i in id_list:
-            line_ids += "," + i[1]
+            line_ids += "," + str(i[1])
         param["filter[user_id]"] = line_ids
         lst = self.__journal(begin_at, end_at, param)
         rtn = {}
