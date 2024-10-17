@@ -60,7 +60,7 @@ class Journal():
         return rtn
 
 
-    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False, experiance=False, location=False) -> dict:
+    def get_list(self, logins:list, begin_at:str, end_at:str, intern=False, intra_usage=False, evaluation=False, experience=False, location=False) -> dict:
         """
             logins : list of users
             begin_at: "yyy-mm-dd",
@@ -74,16 +74,15 @@ class Journal():
             keys.append("User")
         if (evaluation):
             keys.append("ScaleTeam")
-        if (experiance):
-            keys.append("Experiance")
+        if (experience):
+            keys.append("Experience")
         if (location):
             keys.append("Location")
         param = {}
         if (len(keys)):
             param["filter[item_type]"] = ",".join(keys)
         else:
-            pass
-            #param["filter[item_type]"] = "Internship,User,ScaleTeam,Experiance"
+            param["filter[item_type]"] = "Internship,User,ScaleTeam,Experience"
         param["filter[campus_id]"] = self.__api.campus_id
         id_list = []
         for l in logins:
