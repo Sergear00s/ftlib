@@ -1,6 +1,6 @@
 import requests
 class Users:
-    def __init__(self, api : ft_api) -> None:
+    def __init__(self, api) -> None:
         self.__api = api
 
     def get_user_id_by_login(self, login : str) -> int:
