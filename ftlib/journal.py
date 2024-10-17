@@ -86,6 +86,7 @@ class Journal():
             param["filter[item_type]"] = keys[0] + "," + keys[1]
         if (len(keys) == 1):
             param["filter[item_type]"] = keys[0]
+        param["filter[campus_id]"] = self.__api.campus_id
         lst = self.__journal(begin_at, end_at, param)
         id_list = []
         for l in logins:
