@@ -14,7 +14,7 @@ class Users:
         resp = self.__api.s_request(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
         #resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
         #self.__api.eval_resp(resp)
-        jsn = resp.json()
+        jsn = resp[0]
         if (jsn and len(jsn)>0):
             return int(jsn[0]["id"])
         return 0
