@@ -26,7 +26,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__api.Users.get_user_by_login(login)}.id)
     
     def get_intra_usage(self, login:str, begin_at:str, end_at:str):
         """
@@ -34,7 +34,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" : self.__api.Users.get_user_id_by_login(login)})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" : self.__api.Users.get_user_by_login(login).id})
     
     def get_interns(self, login:str, begin_at:str, end_at:str):
         """
@@ -42,7 +42,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :self.__api.Users.get_user_by_login(login).id})
 
     def get_xp(self, login:str, begin_at:str, end_at:str):
         """
@@ -50,7 +50,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Experiance",  "filter[user_id]" :self.__api.Users.get_user_id_by_login(login)})
+        return self.__journal(begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Experiance",  "filter[user_id]" :self.__api.Users.get_user_by_login(login).id})
     
 
     def __gather(self, ids, lst):
@@ -85,18 +85,14 @@ class Journal():
         else:
             param["filter[item_type]"] = "Internship,User,ScaleTeam,Experience"
         param["filter[campus_id]"] = self.__api.campus_id
-        id_list = []
-        for l in logins:        
-            ids = self.__api.Users.get_user_id_by_login(l)
-            if (ids == 0):
-                raise UserIdNotFound(f"{l}'s id is not found!")
-            id_list.append((l, ids))
-        line_ids = ""
-        for i in id_list:
-            line_ids += "," + str(i[1])
+        users = []
+        for i in logins:
+            user = self.User.get_user_by_login(i)
+            line_ids += "," + user.id
+            users.append(user)
         param["filter[user_id]"] = line_ids
         lst = self.__journal(begin_at, end_at, param)
         rtn = {}
-        for i in id_list:
-            rtn[i[0]] = self.__gather(i[1], lst)
+        for i in users:
+            rtn[i.login] = self.__gather(i.id, lst)
         return rtn

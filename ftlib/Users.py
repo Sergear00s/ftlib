@@ -34,8 +34,6 @@ class Users:
             self.__api.update_token()
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
         resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
-        #resp = requests.get(f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
-        #self.__api.eval_resp(resp)
         try:
             jsn = resp.pop(0)
         except IndexError as e:

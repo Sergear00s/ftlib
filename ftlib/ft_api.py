@@ -10,9 +10,16 @@ def tokenizer(func):
         return func(self, *args, **kwargs)
     return wrapper
 
+        
+
 class Ftlib():
     def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = 49 ) -> None:
-
+        """
+            intra_uid: UID of APP
+            intra_secret: Secret key of APP
+            scopes: scopes
+            campus_id: campus id
+        """
         ##public
         self.Users = Users(self)
         self.Journal = Journal(self)
@@ -110,6 +117,7 @@ class Ftlib():
                 done = True
             i += 1
         return items
+
 
 
     def __str__(self) -> str:
