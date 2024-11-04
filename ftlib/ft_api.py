@@ -94,6 +94,8 @@ class Ftlib():
         params["page[size]"] = 100
         i = 1
         ex_cnt = 0
+        size = 0
+        x_toxal = None
         while i <= max_page + 1:
             if (done == True):
                 break
@@ -111,9 +113,13 @@ class Ftlib():
             except Exception as e:
                 raise
             current = resp.json()
-            items.append(current)
-            size = int(int(resp.headers.get("X-Total")) // 100)
-            if ((size) < i ):
+            for y in current:
+                items.append(y)
+            if x_toxal is None:
+                x_toxal = resp.headers.get("X-Total")
+            if (x_toxal is not None):
+                size = int(int(x_toxal)) // 100
+            if (size < i):
                 done = True
             i += 1
         return items

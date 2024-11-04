@@ -1,5 +1,6 @@
 from .Exceptions import UserIdNotFound
 from .Exceptions import RateLimit
+from .Users import User, Users
 import time
 import requests
 class Journal():
@@ -86,9 +87,10 @@ class Journal():
             param["filter[item_type]"] = "Internship,User,ScaleTeam,Experience"
         param["filter[campus_id]"] = self.__api.campus_id
         users = []
+        line_ids = ""
         for i in logins:
-            user = self.User.get_user_by_login(i)
-            line_ids += "," + user.id
+            user = self.__api.Users.get_user_by_login(i)
+            line_ids += "," + str(user.id)
             users.append(user)
         param["filter[user_id]"] = line_ids
         lst = self.__journal(begin_at, end_at, param)
