@@ -18,6 +18,17 @@ class User:
     def show_freezes(self):
         self.__api.tokener()
         resp: list = requests.get()
+    
+    def get_candidate_data(self) -> dict:
+        """
+           return : dict 
+        """
+        #"/v2/users/:user_id/user_candidature"
+        self.__api.tokener()
+        resp = requests.get(f"{self.__api.endpoint}/v2/users/{self.login}/user_candidature", headers=self.__api.header)
+        self.__api.eval_resp(resp)
+        return resp.json()
+
 
     def __getattr__(self, name):
         """['id', 'email', 'login', 'first_name', 'last_name', 'usual_full_name', 'usual_first_name', 'url', 'phone', 'displayname', 'kind', 'image', 'staff?', 'correction_point', 'pool_month', 'pool_year', 'location', 'wallet', 'anonymize_date', 'data_erasure_date', 'created_at', 'updated_at', 'alumnized_at', 'alumni?', 'active?']"""
@@ -94,12 +105,3 @@ class Users:
                     x.cursus_data = i
         return users
 
-    def get_candidate_data(self) -> dict:
-        """
-           return : dict 
-        """
-        #"/v2/users/:user_id/user_candidature"
-        self.__api.tokener()
-        resp = requests.get(f"{self.__api.endpoint}/v2/users/{self.login}/user_candidature", headers=self.__api.header)
-        self.__api.eval_resp(resp)
-        return resp.json()
