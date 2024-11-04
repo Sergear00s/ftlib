@@ -93,3 +93,13 @@ class Users:
                 if (x.id == ids):
                     x.cursus_data = i
         return users
+
+    def get_candidate_data(self) -> dict:
+        """
+           return : dict 
+        """
+        #"/v2/users/:user_id/user_candidature"
+        self.__api.tokener()
+        resp = requests.get(f"{self.__api.endpoint}/v2/users/{self.login}/user_candidature", headers=self.__api.header)
+        self.__api.eval_resp(resp)
+        return resp.json()
