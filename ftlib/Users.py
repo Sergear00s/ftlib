@@ -1,23 +1,20 @@
 import requests
 from .Exceptions import UserIdNotFound
-
 class User:
     def __init__(self, data : dict, api) -> None:
         self.data = data
-        self.cursus_data = None
         self.__api = api
-    
+
     def add_correction(self, reason: str,amount : int = 1):
         self.__api.tokener()
-        resp : list = requests.post(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/add", headers=self.__api.header, data={"amount":amount, "reason":reason})
-    
+        resp = requests.post(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/add", headers=self.__api.header, data={"amount":amount, "reason":reason})
+        self.__api.eval_resp(resp)
+
     def del_correction(self, reason:str, amount : int = 1):
         self.__api.tokener()
-        resp : list = requests.delete(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/remove", headers=self.__api.header, data={"amount":amount, "reason":reason})
+        resp = requests.delete(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/remove", headers=self.__api.header, data={"amount":amount, "reason":reason})
+        self.__api.eval_resp(resp)
 
-    def show_freezes(self):
-        self.__api.tokener()
-        resp: list = requests.get()
     
     def get_candidate_data(self) -> dict:
         """
@@ -34,8 +31,6 @@ class User:
         """['id', 'email', 'login', 'first_name', 'last_name', 'usual_full_name', 'usual_first_name', 'url', 'phone', 'displayname', 'kind', 'image', 'staff?', 'correction_point', 'pool_month', 'pool_year', 'location', 'wallet', 'anonymize_date', 'data_erasure_date', 'created_at', 'updated_at', 'alumnized_at', 'alumni?', 'active?']"""
         if name in self.data:
             return self.data[name]
-        if self.cursus_data and  name in self.cursus_data:
-            return self.cursus_data[name]
         raise AttributeError(f"'User' object has no attribute '{name}'")
     
     def __str__(self) -> str:
