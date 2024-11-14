@@ -26,7 +26,6 @@ class User:
         self.__api.eval_resp(resp)
         return resp.json()
 
-
     def __getattr__(self, name):
         """['id', 'email', 'login', 'first_name', 'last_name', 'usual_full_name', 'usual_first_name', 'url', 'phone', 'displayname', 'kind', 'image', 'staff?', 'correction_point', 'pool_month', 'pool_year', 'location', 'wallet', 'anonymize_date', 'data_erasure_date', 'created_at', 'updated_at', 'alumnized_at', 'alumni?', 'active?']"""
         if name in self.data:
@@ -41,7 +40,6 @@ class User:
             return ""
     def __repr__(self) -> str:
         return str(self.data)
-
 
 class Users:
     def __init__(self, api) -> None:
