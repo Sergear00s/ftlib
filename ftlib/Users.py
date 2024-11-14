@@ -6,11 +6,23 @@ class User:
         self.__api = api
 
     def add_correction(self, reason: str,amount : int = 1):
+        """
+            Adds correction point to self login.
+            ARGS:
+                reason (str) : reason,
+                amount (int) : amount. default is 1
+        """
         self.__api.tokener()
         resp = requests.post(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/add", headers=self.__api.header, data={"amount":amount, "reason":reason})
         self.__api.eval_resp(resp)
 
     def del_correction(self, reason:str, amount : int = 1):
+        """
+            Deletes correction point from self login.
+            ARGS:
+                reason (str) : reason,
+                amount (int) : amount. default is 1
+        """
         self.__api.tokener()
         resp = requests.delete(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/remove", headers=self.__api.header, data={"amount":amount, "reason":reason})
         self.__api.eval_resp(resp)
@@ -18,7 +30,9 @@ class User:
     
     def get_candidate_data(self) -> dict:
         """
-           return : dict 
+            Returns candidature data of self User
+            RETURNS:
+                dict: data 
         """
         #"/v2/users/:user_id/user_candidature"
         self.__api.tokener()
@@ -47,8 +61,12 @@ class Users:
 
     def get_user_by_login(self, login : str) -> User:
         """
-            login: user login,
-            return value: User()
+            Returns User object by given login.
+            ARGS:
+                login: user login,
+            RETURN:
+                User: User object
+            
         """
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
         resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
@@ -64,7 +82,9 @@ class Users:
     
     def get_users_by_logins(self, login_list : list) -> list:
         """
-            login_list: list of logins
+            Returns list of User object.
+            RETURN:
+                list: List of User object
         """
         rtn = []
         params = {}
@@ -78,6 +98,11 @@ class Users:
         return users
     
     def get_campus_users(self):
+        """
+            Returns campus users of setted campus_id.
+            RETURN:
+                list: list of users
+        """
         to = "/v2/cursus/:cursus_id/cursus_users"
         param = {
             "filter[campus_id]":self.__api.campus_id

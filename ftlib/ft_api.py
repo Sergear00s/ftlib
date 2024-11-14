@@ -4,6 +4,7 @@ from .Users import Users
 from .journal import Journal
 from .Cursus import Cursus
 from .Exceptions import Error_response, Error_auth, RateLimit
+from .Constants import CAMPUS_ISTANBUL
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):
@@ -14,7 +15,7 @@ def tokenizer(func):
         
 
 class Ftlib():
-    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = 49 ) -> None:
+    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = CAMPUS_ISTANBUL) -> None:
         """
             intra_uid: UID of APP
             intra_secret: Secret key of APP
