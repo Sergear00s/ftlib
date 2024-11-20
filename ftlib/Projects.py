@@ -7,7 +7,7 @@ class Projects():
     def __init__(self, api) -> None:
         self.__api = api
     
-    def update_project_mark(self, project_id : int, final_mark : int):
+    def update_project_mark(self, project_id : int, final_mark : int) -> None:
 
         """https://api.intra.42.fr/v2/projects_users/:id"""
 
@@ -18,8 +18,7 @@ class Projects():
              }
         })
         self.__api.eval_resp(resp)
-        
-    
+        return None
     #todo: 
     def delete_evaluate(self):
         pass

@@ -4,6 +4,7 @@ from .Users import Users
 from .journal import Journal
 from .Cursus import Cursus
 from .Exceptions import Error_response, Error_auth, RateLimit
+from .Projects import Projects
 from .Constants import CAMPUS_ISTANBUL
 
 def tokenizer(func):
@@ -26,6 +27,7 @@ class Ftlib():
         self.Users = Users(self)
         self.Journal = Journal(self)
         self.Cursus = Cursus(self)
+        self.Projects = Projects(self)
         self.campus_id = campus_id
         ##end public
         self.secret = intra_secret
