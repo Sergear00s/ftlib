@@ -34,3 +34,7 @@ class Cursus:
             if (i["cursus"]["id"] == cursus_id):
                 return i
         return None
+    
+
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")

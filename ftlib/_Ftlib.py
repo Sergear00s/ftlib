@@ -136,3 +136,5 @@ class Ftlib():
         return self.token
 
 __all__ = ["Ftlib"]
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")
