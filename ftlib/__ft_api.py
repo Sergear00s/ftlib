@@ -1,14 +1,13 @@
-if __package__ is None or __package__ != "ftlib":
-    raise ImportError("Error import")
+
 
 import requests
 import time
-from ._Users import Users
-from ._journal import Journal
-from ._Cursus import Cursus
-from ._Exceptions import Error_response, Error_auth, RateLimit
-from ._Projects import Projects
-from ._Constants import CAMPUS_ISTANBUL
+from .__Users import Users
+from .__journal import Journal
+from .__Cursus import Cursus
+from .__Exceptions import Error_response, Error_auth, RateLimit
+from .__Projects import Projects
+from .__Constants import CAMPUS_ISTANBUL
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):
