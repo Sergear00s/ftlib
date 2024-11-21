@@ -32,7 +32,3 @@ class Projects():
 
 
 
-
-
-if __name__ != "ftlib":
-    raise ImportError("Import Error")
