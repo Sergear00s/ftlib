@@ -122,5 +122,5 @@ class Users:
                     x.cursus_data = i
         return users
 
-if __name__ != "ftlib":
-    raise ImportError("Import Error")
+
+

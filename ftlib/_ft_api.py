@@ -13,7 +13,6 @@ def tokenizer(func):
         return func(self, *args, **kwargs)
     return wrapper
 
-        
 
 class Ftlib():
     def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = CAMPUS_ISTANBUL) -> None:
@@ -136,5 +135,5 @@ class Ftlib():
 
 
 
-if __name__ != "ftlib":
-    raise ImportError("Import Error")
+if __name__ == "__main__":
+    raise ImportError("Error importing")

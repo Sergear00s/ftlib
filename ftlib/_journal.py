@@ -101,5 +101,3 @@ class Journal():
 
 
 
-if __name__ != "ftlib":
-    raise ImportError("Import Error")
