@@ -98,3 +98,8 @@ class Journal():
         for i in users:
             rtn[i.login] = self.__gather(i.id, lst)
         return rtn
+
+
+
+if __name__ != "ftlib":
+    raise ImportError("Import Error")

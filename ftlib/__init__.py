@@ -6,3 +6,6 @@ from ._Constants import *
 
 
 __all__ = ["Ftlib", "Users", "Journal", "Cursus"]
+
+if __name__ != "ftlib":
+    raise ImportError("Import Error")

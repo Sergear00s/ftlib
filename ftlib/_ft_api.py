@@ -133,4 +133,8 @@ class Ftlib():
 
     def __str__(self) -> str:
         return self.token
-        
+
+
+
+if __name__ != "ftlib":
+    raise ImportError("Import Error")

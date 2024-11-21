@@ -2,6 +2,8 @@ import time
 import requests
 import json
 
+if __name__ != "ftlib":
+    raise ImportError("Import Error")
 
 class Cursus:
     def __init__(self, api) -> None:

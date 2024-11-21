@@ -1,4 +1,5 @@
-
+if __name__ != "ftlib":
+    raise ImportError("Import Error")
 
 class Error_response(Exception):
     def __init__(self, message):

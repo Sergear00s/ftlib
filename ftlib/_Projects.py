@@ -29,3 +29,10 @@ class Projects():
     def get_user_projects(self, user):
         """/v2/users/:user_id/projects_users"""
         pass
+
+
+
+
+
+if __name__ != "ftlib":
+    raise ImportError("Import Error")
