@@ -4,7 +4,6 @@ class User:
     def __init__(self, data : dict, api) -> None:
         self.data = data
         self.__api = api
-
     def add_correction(self, reason: str,amount : int = 1):
         """
             Adds correction point to self login.
