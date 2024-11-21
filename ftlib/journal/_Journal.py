@@ -1,8 +1,6 @@
-from ..exceptions._Exceptions import UserIdNotFound
-from ..exceptions._Exceptions import RateLimit
-from ..users._Users import User, Users
-import time
 import requests
+
+
 class Journal():
     def __init__(self, api) -> None:
         self.__api = api
