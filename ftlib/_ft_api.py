@@ -1,11 +1,11 @@
 import requests
 import time
-from .Users import Users
-from .journal import Journal
-from .Cursus import Cursus
-from .Exceptions import Error_response, Error_auth, RateLimit
-from .Projects import Projects
-from .Constants import CAMPUS_ISTANBUL
+from ._Users import Users
+from ._journal import Journal
+from ._Cursus import Cursus
+from ._Exceptions import Error_response, Error_auth, RateLimit
+from ._Projects import Projects
+from ._Constants import CAMPUS_ISTANBUL
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):

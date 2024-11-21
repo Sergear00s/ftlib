@@ -1,8 +1,8 @@
-from .ft_api import Ftlib
-from .Users import Users
-from .journal import Journal
-from .Cursus import Cursus
-from .Constants import *
+from ._ft_api import Ftlib
+from ._Users import Users
+from ._journal import Journal
+from ._Cursus import Cursus
+from ._Constants import *
 
 
-__all__ = ["Ftlib", "Users", "Journal", "Cursus", "Constants"]
+__all__ = ["Ftlib", "Users", "Journal", "Cursus"]

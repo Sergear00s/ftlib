@@ -1,5 +1,5 @@
 import requests
-from .Exceptions import UserIdNotFound
+from ._Exceptions import UserIdNotFound
 class User:
     def __init__(self, data : dict, api) -> None:
         self.data = data
