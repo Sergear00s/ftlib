@@ -1,9 +1,9 @@
 from ._Ftlib import Ftlib
 
 
-from .projects import _Projects
-from .cursus import _Cursus
+from .projects._Projects import Projects
+from .cursus._Cursus import Cursus
 from ._Constants import *
-from .journal import _Journal
-from .users import _Users
+from .journal._Journal import _Journal
+from .users._Users import _Users
 
