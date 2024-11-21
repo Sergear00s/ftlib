@@ -2,10 +2,10 @@
 
 import requests
 import time
-from .users._Users import Users
-from .cursus._Cursus import Cursus
-from .exceptions._Exceptions import Error_response, Error_auth, RateLimit
-from .projects._Projects import Projects
+from users._Users import Users
+from cursus._Cursus import Cursus
+from exceptions._Exceptions import Error_response, Error_auth, RateLimit
+from projects._Projects import Projects
 from journal._Journal import Journal
 from ._Constants import CAMPUS_ISTANBUL
 
