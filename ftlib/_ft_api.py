@@ -134,6 +134,5 @@ class Ftlib():
         return self.token
 
 
-
-if __name__ == "__main__":
-    raise ImportError("Error importing")
+if __package__ is None or __package__ != "ftlib":
+    raise ImportError("Error import")
