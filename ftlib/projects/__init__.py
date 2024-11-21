@@ -1,5 +1,6 @@
 from ._Projects import Projects
 
+__all__ = ["Projects"]
 
 
 def __getattr__(name):
