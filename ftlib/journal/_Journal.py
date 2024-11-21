@@ -1,6 +1,6 @@
-from ._Exceptions import UserIdNotFound
-from ._Exceptions import RateLimit
-from ._Users import User, Users
+from ..exceptions._Exceptions import UserIdNotFound
+from ..exceptions._Exceptions import RateLimit
+from ..users._Users import User, Users
 import time
 import requests
 class Journal():
