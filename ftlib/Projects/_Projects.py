@@ -4,7 +4,7 @@ import requests
 
 
 class Projects():
-    def __init__(self, api : ftlib.Ftlib) -> None:
+    def __init__(self, api : ftlib._ft_api.Ftlib) -> None:
         self.__api = api
     
     def update_project_mark(self, project_id : int, final_mark : int) -> None:
