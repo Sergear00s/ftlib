@@ -1,1 +1,1 @@
-#from ._Journal import Journal
+from ._Journal import Journal
