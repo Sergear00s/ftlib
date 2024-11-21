@@ -2,7 +2,7 @@ import time
 import requests
 import json
 
-
+__all__ = ["Cursus"]
 
 class Cursus:
     def __init__(self, api) -> None:

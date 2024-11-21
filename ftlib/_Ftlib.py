@@ -135,3 +135,4 @@ class Ftlib():
     def __str__(self) -> str:
         return self.token
 
+__all__ = ["Ftlib"]

@@ -99,3 +99,4 @@ class Journal():
 
 
 
+__all__ = ["Journal"]
