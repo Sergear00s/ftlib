@@ -1,3 +1,6 @@
+if __package__ is None or __package__ != "ftlib":
+    raise ImportError("Error import")
+
 import requests
 import time
 from ._Users import Users
@@ -133,6 +136,3 @@ class Ftlib():
     def __str__(self) -> str:
         return self.token
 
-
-if __package__ is None or __package__ != "ftlib":
-    raise ImportError("Error import")
