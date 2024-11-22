@@ -18,7 +18,7 @@ class Api:
         self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
-        kwargs["header"] = header
+        kwargs["headers"] = header
         return requests.request("post", url, **kwargs)
     
     def put(self, endpoint, data=None, json=None, **kwargs):
