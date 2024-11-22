@@ -26,7 +26,7 @@ def tokenizer(func):
 
 
 class Ftlib():
-    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "", campus_id : int = CAMPUS_ISTANBUL) -> None:
+    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "public projects forum profile elearning tig", campus_id : int = CAMPUS_ISTANBUL) -> None:
         """
             intra_uid: UID of APP
             intra_secret: Secret key of APP
