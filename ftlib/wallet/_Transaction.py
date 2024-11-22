@@ -21,7 +21,7 @@ class Transaction:
                 "reason": str
             }
         }
-        resp = self.__api.api.post("/v2/transactions", data=data)
+        resp = self.__api.api.post("/v2/transactions", params=data)
         self.__api.eval_resp(resp)
 
 
