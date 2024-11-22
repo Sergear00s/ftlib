@@ -4,7 +4,6 @@
 import requests
 import datetime
 
-
 class Transaction:
     def __init__(self, api) -> None:
         self.__api = api
