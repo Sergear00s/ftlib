@@ -20,6 +20,7 @@ class Transaction:
         }
 
         resp = self.__api.api.post("/v2/transactions", data=data)
+        print(resp.json())
         self.__api.eval_resp(resp)
 
 
@@ -29,8 +30,7 @@ class Transaction:
     def trade(self, from_ : str, to_ : str, amount : int):
         pass
 
-    def get_transactions(self, campus_id : int, created_at : str):
+    def get_transactions(self, created_at : str):
         pass
-
 
         
