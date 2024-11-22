@@ -15,7 +15,7 @@ class Transaction:
             raise ArithmeticError("amount can't be negative or null")
         data = {
             "transaction" : {
-                "value" : str(amount),
+                "value" : amount,
                 "user_id": user_id,
                 "transactable_type": transactable_type,
                 "reason": str
