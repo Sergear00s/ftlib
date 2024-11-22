@@ -9,14 +9,7 @@ class Transaction:
         self.__api = api
 
 
-    def send(self, user_id : str, amount : int, transactable_type : str = "Tuteur api"):
-        """"transaction": {
-    "value": 5,
-    "user_id": 123,
-    "transactable_type": "Tuteur api",
-    "reason": "cadeau"
-    /v2/transactions
-  }"""
+    def send(self, user_id : str, amount : int, reason : str, transactable_type : str = "Tuteur api"):
         
         if (amount <= 0):
             raise ArithmeticError("amount can't be negative or null")
@@ -24,7 +17,8 @@ class Transaction:
             "transaction" : {
                 "value" : str(amount),
                 "user_id": user_id,
-                "transactable_type": transactable_type
+                "transactable_type": transactable_type,
+                "reason": str
             }
         }
         resp = self.__api.api.post("/v2/transactions", headers=self.__api.header, data=data)
