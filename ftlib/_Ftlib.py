@@ -7,7 +7,15 @@ from .cursus._Cursus import Cursus
 from .exceptions._Exceptions import Error_response, Error_auth, RateLimit
 from .projects._Projects import Projects
 from .journal._Journal import Journal
+from .api import Api
 from ._Constants import CAMPUS_ISTANBUL
+
+
+
+
+__all__ = ("Ftlib")
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")
 
 def tokenizer(func):
     def wrapper(self, *args, **kwargs):
@@ -29,8 +37,9 @@ class Ftlib():
         self.Journal = Journal(self)
         self.Cursus = Cursus(self)
         self.Projects = Projects(self)
-        self.campus_id = campus_id
+        self.api = Api(self) 
         ##end public
+        self.campus_id = campus_id
         self.secret = intra_secret
         self.__uid = intra_uid
         self.endpoint = "https://api.intra.42.fr"
@@ -45,6 +54,8 @@ class Ftlib():
     def tokener(self):
         if (self.token_check() is False):
             self.update_token()
+            if (self.token_check() is False):
+                raise ConnectionRefusedError("Token error")
 
     def _grep_token(self):
         if self.token:
@@ -135,6 +146,3 @@ class Ftlib():
     def __str__(self) -> str:
         return self.token
 
-__all__ = ["Ftlib"]
-def __getattr__(name):
-    raise AttributeError(f"{name} can't be imported")

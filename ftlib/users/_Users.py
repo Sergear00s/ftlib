@@ -1,6 +1,11 @@
 import requests
 from ..exceptions._Exceptions import UserIdNotFound
 
+__all__ = ("Users", "User")
+
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")
+
 class User:
     def __init__(self, data : dict, api) -> None:
         self.data = data
@@ -125,7 +130,3 @@ class Users:
 
 
 
-__all__ = ["Users", "User"]
-
-def __getattr__(name):
-    raise AttributeError(f"{name} can't be imported")
