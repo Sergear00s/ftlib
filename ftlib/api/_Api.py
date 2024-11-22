@@ -16,7 +16,7 @@ class Api:
         self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
-        return requests.request("post", url, data=data, headers=header, json=json, **kwargs)
+        return requests.request("post", url, headers=header, data=data, json=json, **kwargs)
     
     def put(self, endpoint, data=None, json=None, **kwargs):
         self.__api.tokener()
@@ -37,5 +37,4 @@ class Api:
         header = self.__api.header
         url = self.__api.endpoint + endpoint
         return requests.request("delete", url, data=data, headers=header, json=json, **kwargs)
-    
     
