@@ -2,7 +2,7 @@ import time
 import requests
 import json
 
-
+__all__ = ["Cursus"]
 
 class Cursus:
     def __init__(self, api) -> None:
@@ -34,3 +34,7 @@ class Cursus:
             if (i["cursus"]["id"] == cursus_id):
                 return i
         return None
+    
+
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")

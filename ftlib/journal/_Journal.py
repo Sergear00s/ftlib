@@ -1,8 +1,6 @@
-from .__Exceptions import UserIdNotFound
-from .__Exceptions import RateLimit
-from .__Users import User, Users
-import time
 import requests
+
+
 class Journal():
     def __init__(self, api) -> None:
         self.__api = api
@@ -101,3 +99,6 @@ class Journal():
 
 
 
+__all__ = ["Journal"]
+def __getattr__(name):
+    raise AttributeError(f"{name} can't be imported")
