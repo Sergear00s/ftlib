@@ -18,9 +18,7 @@ class Transaction:
             "transactable_type": transactable_type,
             "reason": reason
         }
-
-        resp = self.__api.api.post("/v2/transactions", json=data)
-        print(resp.json())
+        resp = self.__api.api.post("/v2/transactions", data=data)
         self.__api.eval_resp(resp)
 
 
