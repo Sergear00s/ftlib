@@ -7,7 +7,7 @@ class Api:
         self.__api = root
 
     def _request(self, method : str, endpoint : str, **kwargs):
-        self.tokener()
+        self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
         kwargs["headers"]= header
