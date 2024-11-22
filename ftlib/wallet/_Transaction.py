@@ -2,7 +2,6 @@
 
 
 import requests
-import datetime
 
 class Transaction:
     def __init__(self, api) -> None:
@@ -14,12 +13,10 @@ class Transaction:
         if (amount <= 0):
             raise ArithmeticError("amount can't be negative or null")
         data = {
-  "transaction": {
-    "value": amount,
-    "user_id": user_id,
-    "transactable_type": transactable_type,
-    "reason": reason
-  }
+            "value": amount,
+            "user_id": user_id,
+            "transactable_type": transactable_type,
+            "reason": reason
         }
 
         resp = self.__api.api.post("/v2/transactions", data=data)
