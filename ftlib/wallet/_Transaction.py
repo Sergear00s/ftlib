@@ -14,14 +14,15 @@ class Transaction:
         if (amount <= 0):
             raise ArithmeticError("amount can't be negative or null")
         data = {
-            "transaction" : {
+            {"transaction" : {
                 "value" : amount,
                 "user_id": user_id,
                 "transactable_type": transactable_type,
                 "reason": str
-            }
+            }}
         }
-        resp = self.__api.api.post("/v2/transactions", params=data)
+
+        resp = self.__api.api.post("/v2/transactions", data=data)
         self.__api.eval_resp(resp)
 
 
