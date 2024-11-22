@@ -14,12 +14,11 @@ class Api:
         kwargs["header"]= header
         return requests.request("get", url, **kwargs)
     
-    def post(self, endpoint, data=None, **kwargs):
+    def post(self, endpoint, **kwargs):
         self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
-        kwargs["data"]=data
-        kwargs["header"]= header
+        kwargs["header"] = header
         return requests.request("post", url, **kwargs)
     
     def put(self, endpoint, data=None, json=None, **kwargs):
