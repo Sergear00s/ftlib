@@ -1,8 +1,5 @@
 
 
-
-import requests
-
 class Transaction:
     def __init__(self, api) -> None:
         self.__api = api
@@ -18,9 +15,8 @@ class Transaction:
             "transactable_type": transactable_type,
             "reason": reason
         }
-        resp = self.__api.api.post("/v2/transactions", data=data)
+        resp = self.__api.api.post("/v2/transactions", json=data)
         self.__api.eval_resp(resp)
-
 
     def recive(self, user : str, amount : int):
         pass
