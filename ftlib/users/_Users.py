@@ -127,6 +127,3 @@ class Users:
                 if (x.id == ids):
                     x.cursus_data = i
         return users
-
-
-
