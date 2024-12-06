@@ -95,8 +95,10 @@ class Users:
         resp : dict = self.__api.Api.page("/v2/users", params=params)
         keys = resp.keys()
         for i in keys:
-            if (resp[i].json()["login"] == login):
-                return User(resp[i].json(), self.__api)
+            lst = resp[i].json()
+            for k in range(lst):
+                if k["login"] == login:
+                    return User(k, self.__api)
         raise UserIdNotFound
     
     def get_users_by_logins(self, login_list : list) -> list:
