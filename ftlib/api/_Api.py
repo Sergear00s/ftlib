@@ -23,11 +23,9 @@ class Api:
     def put(self, endpoint, **kwargs):
         return self._request("put", endpoint, **kwargs)
     
-
     def patch(self, endpoint, **kwargs):
         return self._request("patch", endpoint, **kwargs)
     
-
     def delete(self, endpoint, **kwargs):
         return self._request("delete", endpoint, **kwargs)
     
@@ -64,6 +62,5 @@ class Api:
             i += 1
         return pages
     
-
     def pages(self, pagenumber : int, endpoint, **kwargs):
         pass

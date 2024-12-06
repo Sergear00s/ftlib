@@ -38,7 +38,7 @@ class Ftlib():
         self.Journal = Journal(self)
         self.Cursus = Cursus(self)
         self.Projects = Projects(self)
-        self.api = Api(self) 
+        self.Api = Api(self) 
         self.Transaction = Transaction(self)
         ##end public
         self.campus_id = campus_id
