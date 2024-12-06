@@ -144,7 +144,6 @@ class Ftlib():
         return items
 
 
-
     def __str__(self) -> str:
         return self.token
 
