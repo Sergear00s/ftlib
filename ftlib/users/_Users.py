@@ -96,7 +96,7 @@ class Users:
         keys = resp.keys()
         for i in keys:
             lst = resp[i].json()
-            for k in range(lst):
+            for k in lst:
                 if k["login"] == login:
                     return User(k, self.__api)
         raise UserIdNotFound
