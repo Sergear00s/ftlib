@@ -83,7 +83,7 @@ class Users:
         if (jsn):
             return User(jsn, self.__api)
         raise UserIdNotFound
-    def get_users_by_login_v2(self, login : str):
+    def get_user_by_login_v2(self, login : str):
         """
             Returns User object by given login.
             ARGS:
@@ -92,8 +92,12 @@ class Users:
                 User: User object
         """
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp = self.__api.Api.page("/v2/users", params=params)
-        print(resp)
+        resp : dict = self.__api.Api.page("/v2/users", params=params)
+        keys = resp.keys()
+        for i in keys:
+            if (resp[i].json()["login"] == login):
+                return User(resp[i].json(), self.__api)
+        raise UserIdNotFound
     
     def get_users_by_logins(self, login_list : list) -> list:
         """

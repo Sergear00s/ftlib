@@ -56,6 +56,8 @@ class Api:
                     break
                 except RateLimit as e:
                     time.sleep(1)
+                except Exception as e:
+                    raise e
             if resp == None:
                 raise RateLimit(resp)
             pages[i] = resp
