@@ -38,10 +38,10 @@ class Api:
             kwargs["headers"] = {}
         kwargs["headers"]["page[size]"] = 100
         kwargs["headers"]["page[number]"] = 1
-        resp = self._request("get", endpoint, kwargs)
+        resp = self._request("get", endpoint, **kwargs)
         self.__api.eval_resp(resp)
         pages[0] = resp
-        x_total = resp.headers.get("X-Total")
+        x_total = int(resp.headers.get("X-Total"))
         if x_total <= 1:
             return pages
         i = 1
