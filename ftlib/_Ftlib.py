@@ -115,6 +115,7 @@ class Ftlib():
         ex_cnt = 0
         size = 0
         x_toxal = None
+        self.tokener()
         while i <= max_page + 1:
             if (done == True):
                 break

@@ -71,7 +71,6 @@ class Users:
                 login: user login,
             RETURN:
                 User: User object
-            
         """
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
         resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
