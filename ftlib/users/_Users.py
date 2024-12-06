@@ -64,26 +64,26 @@ class Users:
     def __init__(self, api) -> None:
         self.__api = api
 
-    def get_user_by_login(self, login : str) -> User:
-        """
-            Returns User object by given login.
-            ARGS:
-                login: user login,
-            RETURN:
-                User: User object
-        """
-        params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
-        try:
-            jsn = resp.pop(0)
-        except IndexError as e:
-            raise UserIdNotFound
-        except Exception as e:
-            raise e
-        if (jsn):
-            return User(jsn, self.__api)
-        raise UserIdNotFound
-    def get_user_by_login_v2(self, login : str):
+    # def get_user_by_login(self, login : str) -> User:
+    #     """
+    #         Returns User object by given login.
+    #         ARGS:
+    #             login: user login,
+    #         RETURN:
+    #             User: User object
+    #     """
+    #     params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
+    #     resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+    #     try:
+    #         jsn = resp.pop(0)
+    #     except IndexError as e:
+    #         raise UserIdNotFound
+    #     except Exception as e:
+    #         raise e
+    #     if (jsn):
+    #         return User(jsn, self.__api)
+    #     raise UserIdNotFound
+    def get_user_by_login(self, login : str):
         """
             Returns User object by given login.
             ARGS:
