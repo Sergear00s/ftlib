@@ -92,7 +92,7 @@ class Users:
                 User: User object
         """
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp = self.__api.api.page("/v2/users", params=params)
+        resp = self.__api.Api.page("/v2/users", params=params)
         print(resp)
     
     def get_users_by_logins(self, login_list : list) -> list:
