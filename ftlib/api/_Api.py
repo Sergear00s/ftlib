@@ -36,7 +36,7 @@ class Api:
             returns resps in dict page by page. Example = {0: resp, 1: resp, 2, resp...}
         """
         pages = {}
-        if not kwargs["headers"]:
+        if "headers" not in kwargs:
             kwargs["headers"] = {}
         kwargs["headers"]["page[size]"] = 100
         kwargs["headers"]["page[number]"] = 1
