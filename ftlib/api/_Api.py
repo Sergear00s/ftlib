@@ -50,7 +50,7 @@ class Api:
             kwargs["headers"]["page[number]"] = i
             for j in range(10):
                 resp = None
-                resp = self._request("get", endpoint, kwargs)
+                resp = self._request("get", endpoint, **kwargs)
                 try:
                     self.__api.eval_resp(resp)
                     break
