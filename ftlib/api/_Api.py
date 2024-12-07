@@ -23,11 +23,9 @@ class Api:
     def put(self, endpoint, **kwargs):
         return self._request("put", endpoint, **kwargs)
     
-
     def patch(self, endpoint, **kwargs):
         return self._request("patch", endpoint, **kwargs)
     
-
     def delete(self, endpoint, **kwargs):
         return self._request("delete", endpoint, **kwargs)
     
@@ -36,14 +34,14 @@ class Api:
             returns resps in dict page by page. Example = {0: resp, 1: resp, 2, resp...}
         """
         pages = {}
-        if not kwargs["headers"]:
+        if "headers" not in kwargs:
             kwargs["headers"] = {}
         kwargs["headers"]["page[size]"] = 100
         kwargs["headers"]["page[number]"] = 1
-        resp = self._request("get", endpoint, kwargs)
+        resp = self._request("get", endpoint, **kwargs)
         self.__api.eval_resp(resp)
         pages[0] = resp
-        x_total = resp.headers.get("X-Total")
+        x_total = int(resp.headers.get("X-Total"))
         if x_total <= 1:
             return pages
         i = 1
@@ -52,18 +50,19 @@ class Api:
             kwargs["headers"]["page[number]"] = i
             for j in range(10):
                 resp = None
-                resp = self._request("get", endpoint, kwargs)
+                resp = self._request("get", endpoint, **kwargs)
                 try:
                     self.__api.eval_resp(resp)
                     break
                 except RateLimit as e:
                     time.sleep(1)
+                except Exception as e:
+                    raise e
             if resp == None:
                 raise RateLimit(resp)
             pages[i] = resp
             i += 1
         return pages
     
-
     def pages(self, pagenumber : int, endpoint, **kwargs):
         pass

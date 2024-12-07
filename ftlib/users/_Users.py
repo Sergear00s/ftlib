@@ -64,25 +64,41 @@ class Users:
     def __init__(self, api) -> None:
         self.__api = api
 
-    def get_user_by_login(self, login : str) -> User:
+    # def get_user_by_login(self, login : str) -> User:
+    #     """
+    #         Returns User object by given login.
+    #         ARGS:
+    #             login: user login,
+    #         RETURN:
+    #             User: User object
+    #     """
+    #     params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
+    #     resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
+    #     try:
+    #         jsn = resp.pop(0)
+    #     except IndexError as e:
+    #         raise UserIdNotFound
+    #     except Exception as e:
+    #         raise e
+    #     if (jsn):
+    #         return User(jsn, self.__api)
+    #     raise UserIdNotFound
+    def get_user_by_login(self, login : str):
         """
             Returns User object by given login.
             ARGS:
                 login: user login,
             RETURN:
                 User: User object
-            
         """
         params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/users", params=params, headers=self.__api.header)
-        try:
-            jsn = resp.pop(0)
-        except IndexError as e:
-            raise UserIdNotFound
-        except Exception as e:
-            raise e
-        if (jsn):
-            return User(jsn, self.__api)
+        resp : dict = self.__api.Api.page("/v2/users", params=params)
+        keys = resp.keys()
+        for i in keys:
+            lst = resp[i].json()
+            for k in lst:
+                if k["login"] == login:
+                    return User(k, self.__api)
         raise UserIdNotFound
     
     def get_users_by_logins(self, login_list : list) -> list:
@@ -101,6 +117,8 @@ class Users:
         resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/campus/{self.__api.campus_id}/users", params=params, headers=self.__api.header)
         users = resp
         return users
+    
+
     
     def get_campus_users(self):
         """
