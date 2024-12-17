@@ -11,7 +11,8 @@ class Api:
         self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
-        kwargs["headers"]= header
+        for i in header.keys():
+            kwargs["headers"][i] = header[i]
         return requests.request(method, url, **kwargs)
 
     def get(self, endpoint, **kwargs):
@@ -33,21 +34,26 @@ class Api:
         """
             returns resps in dict page by page. Example = {0: resp, 1: resp, 2, resp...}
         """
+        number_page = 1
+        page_size = 100
         pages = {}
         if "headers" not in kwargs:
             kwargs["headers"] = {}
-        kwargs["headers"]["page[size]"] = 100
-        kwargs["headers"]["page[number]"] = 1
+        if "params" not in kwargs:
+            kwargs["params"] = {}
+        kwargs["params"]["page[size]"] = str(page_size)
+        kwargs["params"]["page[number]"] = "1"
         resp = self._request("get", endpoint, **kwargs)
         self.__api.eval_resp(resp)
         pages[0] = resp
-        x_total = int(resp.headers.get("X-Total"))
-        if x_total <= 1:
+        x_total = int(resp.headers.get("x-total"))
+        if (x_total <= page_size):
             return pages
+        number_page = (x_total // page_size) + 1
         i = 1
         resp = None
-        while (i <= x_total):
-            kwargs["headers"]["page[number]"] = i
+        while (i <= number_page):
+            kwargs["params"]["page[number]"] = str(i)
             for j in range(10):
                 resp = None
                 resp = self._request("get", endpoint, **kwargs)
