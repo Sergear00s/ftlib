@@ -105,7 +105,7 @@ class Users:
         return rtn
     
     
-    def get_campus_users(self):
+    def get_campus_users(self, campus_id : int):
         """
             Returns campus users of setted campus_id.
             RETURN:
@@ -115,18 +115,13 @@ class Users:
         param = {
             "filter[campus_id]":self.__api.campus_id
         }
-        resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/campus/{self.__api.campus_id}/users", headers=self.__api.header)
+        #resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/campus/{self.__api.campus_id}/users", headers=self.__api.header)
+        resp = self.__api.Api.page("/v2/campus/{}/users".format(campus_id))
+        keyss = resp.keys()
         users = []
-        for i in resp:
-            users.append(User(i, self.__api))
-        users_ = ""
-        for i in users:
-            users_ += "," + i.login
-        param["filter[user_id]"] = users_
-        resp_cursus : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/cursus/{21}/cursus_users", headers=self.__api.header, params=param)
-        for i in resp_cursus:
-            ids = i["id"]
-            for x in users:
-                if (x.id == ids):
-                    x.cursus_data = i
+        for i in keyss:
+            data = resp[i]
+            data = data.json()
+            for x in data:
+                users.append(User(x, self.__api))
         return users
