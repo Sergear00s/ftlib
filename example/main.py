@@ -3,8 +3,7 @@ import json
 
 
 
-# app = ftlib.Ftlib(UID, SECRET)
-
+app = ftlib.Ftlib(UID, SECRET)
 
 #users = app.Users.get_users_by_logins(["itest"])
 
@@ -21,8 +20,10 @@ import json
 
 # data = app.Cursus.get_cursuses_datas(["itest], ftlib.CAMPUS_ISTANBUL)
 
-# with open("./example/data.json", "w") as file:
-#     json.dump(data , file, indent=4)
+
+data = app.Transaction.get_transactions(user_id="174401")
+with open("./example/data.json", "w") as file:
+    json.dump(data , file, indent=4)
 
 
 #print(len(campus_users))

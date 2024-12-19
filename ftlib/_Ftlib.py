@@ -104,44 +104,12 @@ class Ftlib():
             raise RateLimit("RateLimit")
         
         
-    @tokenizer
-    def s_request(self, req_func, endpoint : str, headers=None, params=None, data=None, max_page : int = 250 ) -> list:
-        items = []
-        done = False
-        if not params:
-            params = {}
-        params["page[size]"] = 100
-        i = 1
-        ex_cnt = 0
-        size = 0
-        x_toxal = None
-        while i <= max_page + 1:
-            if (done == True):
-                break
-            params["page[number]"] = i
-            resp = req_func(endpoint, headers=headers, params=params, data=data)
-            try:
-                self.eval_resp(resp)
-                ex_cnt = 0
-            except RateLimit as e:
-                time.sleep(1)
-                ex_cnt += 1
-                if ex_cnt > 4:
-                    raise RateLimit(resp)
-                continue
-            except Exception as e:
-                raise
-            current = resp.json()
-            for y in current:
-                items.append(y)
-            if x_toxal is None:
-                x_toxal = resp.headers.get("X-Total")
-            if (x_toxal is not None):
-                size = int(int(x_toxal)) // 100
-            if (size < i):
-                done = True
-            i += 1
-        return items
+    def format_page_resp(self, data : dict) -> dict:
+        keyss = data.keys()
+        for i in keyss:
+            val = data[i].json()
+            data[i] = val
+        return data
 
 
     def __str__(self) -> str:
