@@ -11,6 +11,8 @@ class Api:
         self.__api.tokener()
         header = self.__api.header
         url = self.__api.endpoint + endpoint
+        if "headers" not in kwargs:
+            kwargs["headers"] = {}
         for i in header.keys():
             kwargs["headers"][i] = header[i]
         return requests.request(method, url, **kwargs)

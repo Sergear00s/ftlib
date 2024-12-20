@@ -8,6 +8,7 @@ from .exceptions._Exceptions import Error_response, Error_auth, RateLimit
 from .projects._Projects import Projects
 from .journal._Journal import Journal
 from .wallet._Transaction import Transaction
+from .candidatures import Candidatures
 from .api import Api
 from ._Constants import CAMPUS_ISTANBUL
 
@@ -40,6 +41,7 @@ class Ftlib():
         self.Projects = Projects(self)
         self.Api = Api(self) 
         self.Transaction = Transaction(self)
+        self.Candidatures = Candidatures(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret

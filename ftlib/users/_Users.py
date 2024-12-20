@@ -61,6 +61,7 @@ class User:
     def __repr__(self) -> str:
         return str(self.data)
 
+
 class Users:
     def __init__(self, api) -> None:
         self.__api = api
@@ -126,3 +127,12 @@ class Users:
             for x in data:
                 users.append(User(x, self.__api))
         return users
+
+    def location_stats(self, login : str, begin_at : str = None, end_at : str = None):
+        data = {}
+        if (begin_at):
+            data["begin_at"] = begin_at
+        if (end_at):
+            data["end_at"] = end_at
+        return self.__api.Api.get("/v2/users/{}/locations_stats".format(login), data=data).json()
+

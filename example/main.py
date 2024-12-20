@@ -2,7 +2,6 @@ import ftlib
 import json
 
 
-
 app = ftlib.Ftlib(UID, SECRET)
 
 #users = app.Users.get_users_by_logins(["itest"])
@@ -21,7 +20,7 @@ app = ftlib.Ftlib(UID, SECRET)
 # data = app.Cursus.get_cursuses_datas(["itest], ftlib.CAMPUS_ISTANBUL)
 
 
-data = app.Transaction.get_transactions(user_id="174401")
+data = app.Users.location_stats("login", begin_at="2022-02-01")
 with open("./example/data.json", "w") as file:
     json.dump(data , file, indent=4)
 
