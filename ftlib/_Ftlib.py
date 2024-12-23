@@ -8,7 +8,9 @@ from .exceptions._Exceptions import Error_response, Error_auth, RateLimit
 from .projects._Projects import Projects
 from .journal._Journal import Journal
 from .wallet._Transaction import Transaction
+from .campus._Campus import Campus
 from .candidatures import Candidatures
+from .quest import Quest
 from .api import Api
 from ._Constants import CAMPUS_ISTANBUL
 
@@ -42,6 +44,8 @@ class Ftlib():
         self.Api = Api(self) 
         self.Transaction = Transaction(self)
         self.Candidatures = Candidatures(self)
+        self.Campus = Campus(self)
+        self.Quest = Quest(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret
