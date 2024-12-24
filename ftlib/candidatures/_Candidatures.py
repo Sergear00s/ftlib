@@ -33,5 +33,6 @@ class Candidatures:
             param[new_key] = new_val
         data = self.__api.Api.page("/v2/user_candidatures", params=param)
         data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
         return data
 

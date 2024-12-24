@@ -117,7 +117,15 @@ class Ftlib():
             data[i] = val
         return data
 
-
+    def extract(self, data : dict) -> list:
+        keys = data.keys()
+        rtn = []
+        for i in keys:
+            data_in = data[i]
+            for x in data_in:
+                rtn.append(x)
+        return rtn
+    
     def __str__(self) -> str:
         return self.token
 

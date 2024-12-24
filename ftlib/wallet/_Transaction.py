@@ -60,6 +60,7 @@ class Transaction:
             param[new_key] = new_val
         data = self.__api.Api.page("/v2/transactions", params=param)
         data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
         return data
 
     def delete_transaction(self, id_ : str):

@@ -10,6 +10,7 @@ class Quest:
 
         data = self.__api.Api.page("/v2/users/{}/quests".format(user_id))
         data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
         return data
     
     def get_campus_users_quests(self, campus_id : int, quest_id_list : list):
@@ -18,6 +19,7 @@ class Quest:
          formated = ", ".join(quest_id_list)
          data = self.__api.Api.page("/v2/quests_users", params={"filter[campus_id]":campus_id, "filter[quest_id]": formated})
          data = self.__api.format_page_resp(data)
+         data = self.__api.extract(data)
          return data
     
 
@@ -29,4 +31,5 @@ class Quest:
         print(user_format)
         data = self.__api.Api.page("/v2/quests/{}/quests_users".format(quest_id), params={"filter[user_id]": user_format})
         data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
         return data
