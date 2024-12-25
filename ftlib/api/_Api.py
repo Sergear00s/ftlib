@@ -52,7 +52,7 @@ class Api:
         if (x_total <= page_size):
             return pages
         number_page = (x_total // page_size) + 1
-        i = 1
+        i = 2
         resp = None
         while (i <= number_page):
             kwargs["params"]["page[number]"] = str(i)
@@ -69,6 +69,7 @@ class Api:
             if resp == None:
                 raise RateLimit(resp)
             pages[i] = resp
+            resp = None
             i += 1
         return pages
     

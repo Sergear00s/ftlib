@@ -22,7 +22,8 @@ class Candidatures:
     birth_country: str = None,
     postal_country: str = None,
     piscine_date: str = None,
-    email: str = None,):
+    email: str = None, 
+    campus_id: int = None):
         
         args = {key: value for key, value in locals().items() if key != "self" and value is not None}
         keyss = args.keys()
