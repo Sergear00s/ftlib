@@ -25,15 +25,10 @@ class Cursus:
         params = {
             "filter[campus_id]": campus_id,        
         }
-        resp = self.__api.Api.page("/v2/cursus/{}/cursus_users".format(cursus_id), params=params)
-        keyss = resp.keys()
-        cursus_data = []
-        for i in keyss:
-            data = resp[i]
-            data = data.json()
-            for x in data:
-                cursus_data.append(x)
-        return cursus_data
+        data = self.__api.Api.page("/v2/cursus/{}/cursus_users".format(cursus_id), params=params)
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
     
 
 def __getattr__(name):

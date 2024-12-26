@@ -1,7 +1,8 @@
 import requests
 from ..exceptions._Exceptions import RateLimit
 import time
-
+from concurrent.futures import ThreadPoolExecutor
+import copy
 
 class Api:
     def __init__(self, root) -> None:
@@ -54,24 +55,31 @@ class Api:
         number_page = (x_total // page_size) + 1
         i = 2
         resp = None
-        while (i <= number_page):
-            kwargs["params"]["page[number]"] = str(i)
-            for j in range(10):
-                resp = None
-                resp = self._request("get", endpoint, **kwargs)
-                try:
-                    self.__api.eval_resp(resp)
-                    break
-                except RateLimit as e:
-                    time.sleep(1)
-                except Exception as e:
-                    raise e
-            if resp == None:
-                raise RateLimit(resp)
-            pages[i] = resp
-            resp = None
-            i += 1
+        base = kwargs.copy()
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            futures = []
+            while i <= number_page + 1:
+                args = copy.deepcopy(base)
+                args["params"]["page[number]"] = str(i)
+                args["params"]["page[size]"] = str(page_size)
+                futures.append(executor.submit(self.pages_thread, endpoint, **args))
+                i += 1 
+            i = 1
+            for x in futures:
+                pages[i] = x.result()
+                i += 1
         return pages
     
-    def pages(self, pagenumber : int, endpoint, **kwargs):
-        pass
+    def pages_thread(self, endpoint, **kwargs):
+        for i in range(20):
+            try:
+                resp = self._request("get", endpoint, **kwargs)
+                self.__api.eval_resp(resp)
+                data = resp.json()
+                return resp
+            except RateLimit as e:
+                time.sleep(2)
+                continue
+            except Exception as e:
+                raise e
+        raise RuntimeError("Thread Didnt work")

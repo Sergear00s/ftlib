@@ -101,7 +101,7 @@ class Ftlib():
 
 
     def eval_resp(self, response):
-        codes = [500, 400, 429,401, 403, 404, 422]
+        codes = [500, 400, 429, 401, 403, 404, 422]
         if (response.status_code == codes[0]):
             raise Error_response(f'{response, response.json()}')
         if (response.status_code == codes[1]):
