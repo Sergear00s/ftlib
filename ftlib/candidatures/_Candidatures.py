@@ -37,3 +37,7 @@ class Candidatures:
         data = self.__api.extract(data)
         return data
 
+
+    def get_user_candidatures_by_user_list(self, login_list: list):
+        raw =", ".join(login_list)
+        return self.get_user_candidatures(user_id=raw)
