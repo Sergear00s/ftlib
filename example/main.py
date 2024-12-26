@@ -14,7 +14,5 @@ for i in data:
     if (i["end_at"] == None and i["user"]["kind"] == "student"):
         ln += 1
 
-print(ln, len(data)) 
-
 with open("./example/data.json", "w") as f:
     json.dump(data, f, indent=4)

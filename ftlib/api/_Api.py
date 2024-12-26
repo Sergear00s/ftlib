@@ -75,7 +75,6 @@ class Api:
             try:
                 resp = self._request("get", endpoint, **kwargs)
                 self.__api.eval_resp(resp)
-                data = resp.json()
                 return resp
             except RateLimit as e:
                 time.sleep(2)
