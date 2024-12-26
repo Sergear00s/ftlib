@@ -38,6 +38,6 @@ class Candidatures:
         return data
 
 
-    def get_user_candidatures_by_user_list(self, login_list: list):
-        raw =", ".join(login_list)
-        return self.get_user_candidatures(user_id=raw)
+    def get_user_candidatures_by_user_list(self, user_ids: list):
+        raw =", ".join(user_ids)
+        return self.get_user_candidatures(user_id=raw, campus_id=49)
