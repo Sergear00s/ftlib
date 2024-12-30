@@ -9,6 +9,7 @@ from .projects._Projects import Projects
 from .journal._Journal import Journal
 from .wallet._Transaction import Transaction
 from .campus._Campus import Campus
+from .exam._Exam import Exam
 from .candidatures import Candidatures
 from .quest import Quest
 from .api import Api
@@ -46,6 +47,7 @@ class Ftlib():
         self.Candidatures = Candidatures(self)
         self.Campus = Campus(self)
         self.Quest = Quest(self)
+        self.Exam = Exam(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret
@@ -53,12 +55,12 @@ class Ftlib():
         self.endpoint = "https://api.intra.42.fr"
         self.token = None
         self.header = None
-        if self.token is not None:
-            self.header = {
-                "Authorization": f"Bearer {self._grep_token()}"
-            }
+        # if self.token is not None:
+        #     self.header = {
+        #         "Authorization": f"Bearer {self._grep_token()}"
+        #     }
         self.scopes = scopes
-
+        
     def tokener(self):
         if (self.token_check() is False):
             self.update_token()
@@ -108,6 +110,11 @@ class Ftlib():
             raise Error_auth(f'{response, response.json()}')
         if (response.status_code == codes[2]):
             raise RateLimit("RateLimit")
+        if (response.status_code == codes[3]):
+            raise Error_auth(f'{response, response.json()}')
+        if (response.status_code in codes):
+            raise Exception(f'{response, response.json()}')
+
         
         
     def format_page_resp(self, data : dict) -> dict:

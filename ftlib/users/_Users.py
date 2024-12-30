@@ -97,14 +97,10 @@ class Users:
         for i in login_list:
             that_users += "," + str(i)
         params["filter[login]"] = that_users
-        value = self.__api.Api.page("/v2/campus/{}/users".format(self.__api.campus_id), params=params)
-        keys = value
-        for i in keys:
-            data = value[i]
-            data = data.json()
-            for user in data:
-                rtn.append(User(user, self.__api))
-        return rtn
+        data = self.__api.Api.page("/v2/campus/{}/users".format(self.__api.campus_id), params=params)
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
     
     
     def get_campus_users(self, campus_id : int):
@@ -118,15 +114,10 @@ class Users:
             "filter[campus_id]":self.__api.campus_id
         }
         #resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/campus/{self.__api.campus_id}/users", headers=self.__api.header)
-        resp = self.__api.Api.page("/v2/campus/{}/users".format(campus_id))
-        keyss = resp.keys()
-        users = []
-        for i in keyss:
-            data = resp[i]
-            data = data.json()
-            for x in data:
-                users.append(User(x, self.__api))
-        return users
+        data = self.__api.Api.page("/v2/campus/{}/users".format(campus_id))
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
 
     def location_stats(self, login : str, begin_at : str = None, end_at : str = None):
         data = {}

@@ -2,8 +2,9 @@ import ftlib
 import json
 import dotenv
 import os
+import pytz
 dotenv.load_dotenv()
-
+import datetime
 UID=os.getenv("UID")
 SECRET=os.getenv("SECRET")
 
@@ -12,16 +13,8 @@ SECRET=os.getenv("SECRET")
 app = ftlib.Ftlib(UID, SECRET)
 
 
-# data = app.Cursus.get_campus_cursus_users(ftlib.CAMPUS_ISTANBUL, ftlib.COMMON_CORE_ID)
+#app.Exam.create_exam("test exam", datetime.datetime(2024,12,30,20,0,0,0,pytz.timezone("Asia/Istanbul")), 
+ #                    datetime.datetime(2024,12,30,23,0,0,0,pytz.timezone("Asia/Istanbul")), "TEST", "10.11.0.0/0", 49, [ftlib.EXAM_RANK_2], visible=False)
 
-# ln = 0
-# for i in data:
-#     if (i["end_at"] == None and i["user"]["kind"] == "student"):
-#         ln += 1
-
-
-data = None
-with open("./example/data.json", "w") as f:
-    json.dump(data, f, indent=4)
-    print(json.dumps(data, indent=4))
-    
+# with open("./example/data.json", "w") as f:
+#     json.dump(data, f, indent=4)
