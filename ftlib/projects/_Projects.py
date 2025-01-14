@@ -27,6 +27,21 @@ class Projects():
 
 
     #todo:
+
+    def get_projects(self, cursus_id : int):
+        """GET /v2/cursus/:cursus_id/projects"""
+        data = self.__api.Api.page("/v2/cursus/{}/projects".format(cursus_id))
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
+    
+    def get_project(self, project_id : int, cursus_id : int):
+        """/v2/cursus/:cursus_id/projects"""
+        data = self.__api.Api.page("/v2/cursus/{}/projects".format(cursus_id), params={"filter[id]": project_id})
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
+
     def get_user_project(self, user_id : str, project_id : str):
         """/v2/projects/:project_id/projects_users"""
         user = self.__api.Users.get_user_by_login(user_id).id
