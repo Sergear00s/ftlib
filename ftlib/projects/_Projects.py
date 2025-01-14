@@ -42,9 +42,16 @@ class Projects():
         data = self.__api.extract(data)
         return(data)
         pass
+    
+    def get_project_user_by_id(self, ids : int):
+        """/v2/projects_users"""
+        data = self.__api.Api.page("/v2/projects_users", params={"filter[id]": ids})
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
 
-
-
+    def set_title(self, user_id : str):
+        pass
 __all__ = ["Projects"]
 def __getattr__(name):
     raise AttributeError(f"{name} can't be imported")
