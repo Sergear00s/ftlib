@@ -17,7 +17,7 @@ app = ftlib.Ftlib(UID, SECRET)
  #                    datetime.datetime(2024,12,30,23,0,0,0,pytz.timezone("Asia/Istanbul")), "TEST", "10.11.0.0/0", 49, [ftlib.EXAM_RANK_2], visible=False)
 
 
-data = app.Projects.get_project(1315, 21)
+data = app.Projects.get_user_projects("")
 with open("./example/data.json", "w") as f:
      json.dump(data, f, indent=4)
 
