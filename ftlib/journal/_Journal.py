@@ -10,16 +10,10 @@ class Journal():
         lst = keys.keys()
         for i in lst:
             params[i] = keys[i]
-        pages = self.__api.Api.page("/v2/campus/{}/journals".format(campus_id), params=params, data=data)
-        #pages = self.__api.s_request(requests.get, self.__api.endpoint + f"/v2/campus/{self.__api.campus_id}/journals", headers=self.__api.header, params=params, data=data)
-        rtn = []
-        keyss = pages.keys()
-        for i in keyss:
-            data = pages[i]
-            data = data.json()
-            for x in data:
-                rtn.append(x)
-        return rtn
+        data = self.__api.Api.page("/v2/campus/{}/journals".format(campus_id), params=params, data=data)
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
     
     def get_evo(self, campus_id : int, login:str, begin_at:str, end_at:str):
         """

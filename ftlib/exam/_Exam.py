@@ -21,10 +21,13 @@ class Exam:
         params["activate_waitlist"] = activate_waitlist
         params["project_ids"] = project_ids
         data = self.__api.Api.post("/v2/exams", json={"exam": params})
-        self.__api.eval_resp(data)
 
     def get_exams(self, campus_id : int):
-        pass
+        """GET /v2/campus/:campus_id/exams"""
+        data = self.__api.Api.page("/v2/campus/{}/exams".format(campus_id))
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return(data)
 
     def update_exam(self, exam_id: int, name : str = None,
                     begin_at : str = None, 
@@ -55,7 +58,6 @@ class Exam:
             if (params[i] != None):
                 data[i] = params[i] 
         data = self.__api.Api.put("/v2/exams/{}".format(exam_id), json={"exam": data})
-        self.__api.eval_resp(data)
 
     def delete_exam(self, exam_id : int):
         self.__api.Api.delete("/v2/exams/{}".format(exam_id))
@@ -70,14 +72,14 @@ class Exam:
         return data
     
     def upload_exam_users(self, user_id_list : list, exam_id : int):
-        raw = ", ".join(user_id_list)
+        users = self.__api.Users.get_users_by_login(user_id_list)
+        ids = [x.user_id for x in users]
+        raw = ", ".join(ids)
         param = {}
         param["exams_user[user_id]"] = raw
         data = self.__api.Api.post("/v2/exams/{}/exams_users".format(exam_id), params=param)
-        self.__api.eval_resp(data)
     
     def delete_exam_user(self, exam_id : int, user_id : str):
         """ /v2/exams/:exam_id/exams_users/:id"""
         data = self.__api.Api.post("/v2/exams/{}/exams_users/{}".format(exam_id, user_id))
-        self.__api.eval_resp(data)
 
