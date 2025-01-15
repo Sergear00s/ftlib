@@ -12,6 +12,7 @@ from .campus._Campus import Campus
 from .exam._Exam import Exam
 from .candidatures import Candidatures
 from .achivement import Achivement
+from .title import Title
 from .quest import Quest
 from .api import Api
 
@@ -51,6 +52,7 @@ class Ftlib():
         self.Quest = Quest(self)
         self.Exam = Exam(self)
         self.Achivement = Achivement(self)
+        self.Title = Title(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret
