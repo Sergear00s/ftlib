@@ -14,7 +14,7 @@ class Transaction:
             "transactable_type": transactable_type,
             "reason": reason
         }
-        resp = self.__api.api.post("/v2/transactions", json=data)
+        resp = self.__api.Api.post("/v2/transactions", json=data)
         self.__api.eval_resp(resp)
 
     def recive(self, user_id : str, amount : int, reason : str, transactable_type : str = "Tuteur api"):
@@ -34,6 +34,12 @@ class Transaction:
         self.recive(from_, amount, reason)
         self.send(to_, amount, reason)
 
+    def get_user_transactions(self, user_id : str):
+        """GET /v2/users/:user_id/transactions"""
+        data = self.__api.Api.page("/v2/users/{}/transactions".format(user_id))
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
 
     def get_transactions(self,
                         created_at : str = None,
