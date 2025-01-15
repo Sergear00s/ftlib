@@ -6,7 +6,7 @@ class Achivement:
 
 
 
-    def achive(self, user_id : str, achivement_id : int):
+    def achieve(self, user_id : str, achivement_id : int):
         """POST /v2/achievements_users"""
-        self.__api.Api.post("/v2/achievements_users", json={"achivement_id": achivement_id, "user_id":user_id})
-        return
+        resp = self.__api.Api.post("/v2/achievements_users", json={"achievement_id": achivement_id, "user_id":user_id})
+        return resp

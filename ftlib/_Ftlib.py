@@ -11,8 +11,10 @@ from .wallet._Transaction import Transaction
 from .campus._Campus import Campus
 from .exam._Exam import Exam
 from .candidatures import Candidatures
+from .achivement import Achivement
 from .quest import Quest
 from .api import Api
+
 from ._Constants import CAMPUS_ISTANBUL
 
 
@@ -48,6 +50,7 @@ class Ftlib():
         self.Campus = Campus(self)
         self.Quest = Quest(self)
         self.Exam = Exam(self)
+        self.Achivement = Achivement(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret
