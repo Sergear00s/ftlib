@@ -35,7 +35,10 @@ class Api:
     
     def page(self, endpoint, **kwargs) -> dict:
         """
-            returns resps in dict page by page. Example = {0: resp, 1: resp, 2, resp...}
+            endpoint : str
+            returns: dict
+            description: Get all pages of a endpoint
+            format: {page_number: requests.Response() , ...}                
         """
         number_page = 1
         page_size = 100

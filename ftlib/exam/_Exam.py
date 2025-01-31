@@ -7,6 +7,17 @@ class Exam:
 
     def create_exam(self, name:str, begin_at : datetime.datetime, end_at: datetime.datetime, location:str, ip_range:str, campus_id:int, project_ids : list, visible : bool = True, max_people : int = None,  activate_waitlist : bool = False):
         """
+            name : str
+            begin_at : datetime.datetime
+            end_at : datetime.datetime
+            location : str
+            ip_range : str
+            campus_id : int
+            project_ids : list
+            visible : bool
+            max_people : int
+            activate_waitlist : bool
+            description: Create an exam
         """
         params = {}
         params["name"] = name
@@ -23,7 +34,10 @@ class Exam:
         data = self.__api.Api.post("/v2/exams", json={"exam": params})
 
     def get_exams(self, campus_id : int):
-        """GET /v2/campus/:campus_id/exams"""
+        """
+            campus_id : int
+            returns: list of exams of a campus
+        """
         data = self.__api.Api.page("/v2/campus/{}/exams".format(campus_id))
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
@@ -39,6 +53,20 @@ class Exam:
                     visible : bool = None, 
                     max_people : int = None,
                     activate_waitlist : bool = None):
+        """
+            exam_id : int
+            name : str
+            begin_at : datetime.datetime
+            end_at : datetime.datetime
+            location : str
+            ip_range : str
+            campus_id : int
+            project_ids : list
+            visible : bool
+            max_people : int
+            activate_waitlist : bool
+            description: Update an exam
+        """
         params = {}
         params["name"] = name
         if (begin_at):
@@ -60,10 +88,18 @@ class Exam:
         data = self.__api.Api.put("/v2/exams/{}".format(exam_id), json={"exam": data})
 
     def delete_exam(self, exam_id : int):
+        """
+            exam_id : int
+            description: Delete an exam
+        """
         self.__api.Api.delete("/v2/exams/{}".format(exam_id))
         
     def get_exam_users_by_exam_id(self, exam_id : int):
-        """GET /v2/exams/:exam_id/exams_users"""
+        """
+            exam_id : int
+            returns: list of exam users
+            description: Get exam users by exam id
+        """
         params = {}
         params["filter[exam_id]"] = exam_id
         data = self.__api.Api.page("/v2/exams/{}/exams_users".format(exam_id), params=params)
@@ -72,6 +108,11 @@ class Exam:
         return data
     
     def upload_exam_users(self, user_id_list : list, exam_id : int):
+        """
+            user_id_list : list
+            exam_id : int
+            description: Upload exam users
+        """
         users = self.__api.Users.get_users_by_login(user_id_list)
         ids = [x.user_id for x in users]
         raw = ", ".join(ids)
@@ -80,6 +121,10 @@ class Exam:
         data = self.__api.Api.post("/v2/exams/{}/exams_users".format(exam_id), params=param)
     
     def delete_exam_user(self, exam_id : int, user_id : str):
-        """ /v2/exams/:exam_id/exams_users/:id"""
+        """
+            exam_id : int
+            user_id : str
+            description: Delete an exam user
+        """
         data = self.__api.Api.post("/v2/exams/{}/exams_users/{}".format(exam_id, user_id))
 

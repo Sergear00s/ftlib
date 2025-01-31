@@ -6,15 +6,20 @@ class Quest:
     
 
     def get_user_quests(self, user_id : str):
-        """GET /v2/users/:user_id/quests"""
-
+        """
+            user_id : str
+            returns: list of user quests
+            description: Get user quests
+        """
         data = self.__api.Api.page("/v2/users/{}/quests".format(user_id))
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
         return data
     
     def get_campus_users_quests(self, campus_id : int, quest_id_list : list):
-         """/v2/campus/:campus_id/quests"""
+         """
+            campus_id : int
+         """
          quest_id_list = [str(x) for x in quest_id_list]
          formated = ", ".join(quest_id_list)
          data = self.__api.Api.page("/v2/quests_users", params={"filter[campus_id]":campus_id, "filter[quest_id]": formated})

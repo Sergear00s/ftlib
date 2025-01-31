@@ -8,11 +8,12 @@ class Projects():
     def __init__(self, api) -> None:
         self.__api = api
 
-
     def update_project_mark(self, project_id : int, final_mark : int) -> None:
-
-        """https://api.intra.42.fr/v2/projects_users/:id"""
-
+        """
+            project_id : int
+            final_mark : int
+            description: Update project mark
+        """
         resp = requests.patch(f"{self.__api.endpoint}/v2/projects_users/{project_id}", headers=self.__api.header, data={
              "projects_user": 
              {
@@ -29,28 +30,44 @@ class Projects():
     #todo:
 
     def get_projects(self, cursus_id : int):
-        """GET /v2/cursus/:cursus_id/projects"""
+        """
+            cursus_id : int
+            returns: list of projects of a cursus
+        """
         data = self.__api.Api.page("/v2/cursus/{}/projects".format(cursus_id))
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
         return data
     
     def get_projects_by_list(self, project_ids : list, cursus_id):
-        """/v2/cursus/:cursus_id/projects"""
+        """
+            project_ids : list
+            cursus_id : int
+            returns: list of projects of a cursus
+        """
         project_ids_ = ", ".join(project_ids)
         data = self.__api.Api.page("/v2/cursus/{}/projects".format(cursus_id), params={"filter[id]": project_ids_})
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
         return data
     def get_project(self, project_id : int, cursus_id : int):
-        """/v2/cursus/:cursus_id/projects"""
+        """
+            project_id : int
+            cursus_id : int
+            returns: project data of a cursus by project id
+        """
         data = self.__api.Api.page("/v2/cursus/{}/projects".format(cursus_id), params={"filter[id]": project_id})
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
         return data
 
     def get_user_project(self, user_id : str, project_id : str):
-        """/v2/projects/:project_id/projects_users"""
+        """
+            user_id : str
+            project_id : str
+            returns: user project data
+            description: Get user project data
+        """
         user = self.__api.Users.get_user_by_login(user_id).id
         data = self.__api.Api.page("/v2/projects/{}/projects_users".format(project_id), params={'filter[user_id]': user})
         data = self.__api.format_page_resp(data)
@@ -58,15 +75,22 @@ class Projects():
         return data
 
     def get_user_projects(self, user_id : str):
-        """/v2/users/:user_id/projects_users"""
+        """
+            user_id : str
+            returns: list of user projects
+            description: Get user projects
+        """
         data = self.__api.Api.page("/v2/users/{}/projects_users".format(user_id))
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)
         return(data)
-        pass
     
     def get_project_user_by_id(self, ids : int):
-        """/v2/projects_users"""
+        """
+            ids : int
+            returns: list of project users
+            description: Get project users by id
+        """
         data = self.__api.Api.page("/v2/projects_users", params={"filter[id]": ids})
         data = self.__api.format_page_resp(data)
         data = self.__api.extract(data)

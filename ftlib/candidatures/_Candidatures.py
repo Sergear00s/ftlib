@@ -9,7 +9,11 @@ class Candidatures:
     
 
     def get_user_candidature(self, login : str) -> dict:
-        """GET /v2/users/:user_id/user_candidature"""
+        """
+            login : str
+            returns: user candidature data
+            description: Get user candidature
+        """
         return self.__api.Api.get("/v2/users/{}/user_candidature".format(login))
 
     def get_user_candidatures(
@@ -24,7 +28,6 @@ class Candidatures:
     piscine_date: str = None,
     email: str = None, 
     campus_id: int = None):
-        
         args = {key: value for key, value in locals().items() if key != "self" and value is not None}
         keyss = args.keys()
         param = {}
@@ -39,5 +42,10 @@ class Candidatures:
 
 
     def get_user_candidatures_by_user_list(self, user_ids: list):
+        """
+            user_ids : list
+            returns: list of user candidatures
+            description: Get user candidatures by user list
+        """
         raw =", ".join(user_ids)
         return self.get_user_candidatures(user_id=raw, campus_id=49)
