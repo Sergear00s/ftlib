@@ -96,6 +96,27 @@ class Projects():
         data = self.__api.extract(data)
         return data
 
+    def get_teams_by_project_session_id(self, project_session_id : int, created_at : str = None, updated_at : str = None, deadline_at : str = None, status : str = None):
+        """
+            project_id : int
+            returns: list of teams
+            description: Get teams by project id
+        """
+        params = {}
+        if created_at != None:
+            params["filter[created_at]"] = created_at
+        if updated_at != None:
+            params["filter[updated_at]"] = updated_at
+        if deadline_at != None:
+            params["filter[deadline_at]"] = deadline_at
+        if status != None:
+            params["filter[status]"] = status
+        data = self.__api.Api.page("/v2/project_sessions/{}/teams".format(project_session_id), params=params)
+        data = self.__api.format_page_resp(data)
+        data = self.__api.extract(data)
+        return data
+
+
     def set_title(self, user_id : str):
         pass
 __all__ = ["Projects"]

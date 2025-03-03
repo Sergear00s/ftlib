@@ -5,3 +5,4 @@ build/*
 ftlib.egg*
 dist
 dist/
+*.json

@@ -86,13 +86,15 @@ class Exam:
             if (params[i] != None):
                 data[i] = params[i] 
         data = self.__api.Api.put("/v2/exams/{}".format(exam_id), json={"exam": data})
+        return data
 
     def delete_exam(self, exam_id : int):
         """
             exam_id : int
             description: Delete an exam
         """
-        self.__api.Api.delete("/v2/exams/{}".format(exam_id))
+        data = self.__api.Api.delete("/v2/exams/{}".format(exam_id))
+        return data
         
     def get_exam_users_by_exam_id(self, exam_id : int):
         """
@@ -113,13 +115,15 @@ class Exam:
             exam_id : int
             description: Upload exam users
         """
-        users = self.__api.Users.get_users_by_login(user_id_list)
-        ids = [x.user_id for x in users]
+        users = self.__api.Users.get_users_by_logins(user_id_list)
+        ids = []
+        for x in users:
+            ids.append(str(x["id"]))
         raw = ", ".join(ids)
         param = {}
         param["exams_user[user_id]"] = raw
         data = self.__api.Api.post("/v2/exams/{}/exams_users".format(exam_id), params=param)
-    
+        return data
     def delete_exam_user(self, exam_id : int, user_id : str):
         """
             exam_id : int
