@@ -1,8 +1,8 @@
 import requests
 
 class Journal():
-    def __init__(self, api) -> None:
-        self.__api = api
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
     
     def __journal(self, campus_id : int ,begin_at:str, end_at:str, keys : dict = None):
         data = {"begin_at": begin_at, "end_at": end_at}
@@ -10,9 +10,9 @@ class Journal():
         lst = keys.keys()
         for i in lst:
             params[i] = keys[i]
-        data = self.__api.Api.page("/v2/campus/{}/journals".format(campus_id), params=params, data=data)
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__ftlib.Api.page("/v2/campus/{}/journals".format(campus_id), params=params, data=data)
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return data
     
     def get_evo(self, campus_id : int, login:str, begin_at:str, end_at:str):
@@ -21,7 +21,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__api.Users.get_user_by_login(login)}.id)
+        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__ftlib.Users.get_user_by_login(login)}.id)
     
     def get_intra_usage(self, campus_id : int, login:str, begin_at:str, end_at:str):
         """
@@ -29,7 +29,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" : self.__api.Users.get_user_by_login(login).id})
+        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"User",  "filter[user_id]" : self.__ftlib.Users.get_user_by_login(login).id})
     
     def get_interns(self, campus_id : int, login:str, begin_at:str, end_at:str):
         """
@@ -37,7 +37,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :self.__api.Users.get_user_by_login(login).id})
+        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Internship",  "filter[user_id]" :self.__ftlib.Users.get_user_by_login(login).id})
 
     def get_xp(self, campus_id : int, login:str, begin_at:str, end_at:str):
         """
@@ -45,7 +45,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Experiance",  "filter[user_id]" :self.__api.Users.get_user_by_login(login).id})
+        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"Experiance",  "filter[user_id]" :self.__ftlib.Users.get_user_by_login(login).id})
     
     def __gather(self, ids, lst):
         rtn = []
@@ -77,11 +77,11 @@ class Journal():
             param["filter[item_type]"] = ",".join(keys)
         else:
             param["filter[item_type]"] = "Internship,User,ScaleTeam,Experience"
-        param["filter[campus_id]"] = self.__api.campus_id
+        param["filter[campus_id]"] = self.__ftlib.campus_id
         users = []
         line_ids = ""
         for i in logins:
-            user = self.__api.Users.get_user_by_login(i)
+            user = self.__ftlib.Users.get_user_by_login(i)
             line_ids += "," + str(user.id)
             users.append(user)
         param["filter[user_id]"] = line_ids

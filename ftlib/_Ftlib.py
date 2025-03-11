@@ -1,25 +1,6 @@
-
-
 import requests
-import time
-from .users._Users import Users
-from .cursus._Cursus import Cursus
 from .exceptions._Exceptions import Error_response, Error_auth, RateLimit
-from .projects._Projects import Projects
-from .journal._Journal import Journal
-from .wallet._Transaction import Transaction
-from .campus._Campus import Campus
-from .exam._Exam import Exam
-from .candidatures import Candidatures
-from .achivement import Achivement
-from .title import Title
-from .quest import Quest
 from .api import Api
-from .scale_teams import Scale_teams
-from ._Constants import CAMPUS_ISTANBUL
-
-
-
 
 __all__ = ("Ftlib")
 def __getattr__(name):
@@ -33,38 +14,18 @@ def tokenizer(func):
 
 
 class Ftlib():
-    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "public projects forum profile elearning tig", campus_id : int = CAMPUS_ISTANBUL) -> None:
+    def __init__(self, intra_uid : str, intra_secret: str, scopes : str = "public projects forum profile elearning tig") -> None:
         """
             intra_uid: UID of APP
             intra_secret: Secret key of APP
             scopes: scopes
-            campus_id: campus id
         """
-        ##public
-        self.Users = Users(self)
-        self.Journal = Journal(self)
-        self.Cursus = Cursus(self)
-        self.Projects = Projects(self)
         self.Api = Api(self) 
-        self.Transaction = Transaction(self)
-        self.Candidatures = Candidatures(self)
-        self.Campus = Campus(self)
-        self.Quest = Quest(self)
-        self.Exam = Exam(self)
-        self.Achivement = Achivement(self)
-        self.Title = Title(self)
-        self.Scale_teams = Scale_teams(self)
-        ##end public
-        self.campus_id = campus_id
         self.secret = intra_secret
         self.__uid = intra_uid
         self.endpoint = "https://api.intra.42.fr"
         self.token = None
         self.header = None
-        # if self.token is not None:
-        #     self.header = {
-        #         "Authorization": f"Bearer {self._grep_token()}"
-        #     }
         self.scopes = scopes
         
     def tokener(self):
@@ -107,7 +68,6 @@ class Ftlib():
                 "Authorization": f"Bearer {self.token['access_token']}"
         }
 
-
     def eval_resp(self, response):
         codes = [500, 400, 429, 401, 403, 404, 422]
         if (response.status_code == codes[0]):
@@ -121,8 +81,6 @@ class Ftlib():
         if (response.status_code in codes):
             raise Exception(f'{response, response.json()}')
 
-        
-        
     def format_page_resp(self, data : dict) -> dict:
         keyss = data.keys()
         for i in keyss:

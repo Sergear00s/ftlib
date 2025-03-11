@@ -5,13 +5,13 @@ from concurrent.futures import ThreadPoolExecutor
 import copy
 
 class Api:
-    def __init__(self, root) -> None:
-        self.__api = root
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
 
     def _request(self, method : str, endpoint : str, **kwargs):
-        self.__api.tokener()
-        header = self.__api.header
-        url = self.__api.endpoint + endpoint
+        self.__ftlib.tokener()
+        header = self.__ftlib.header
+        url = self.__ftlib.endpoint + endpoint
         if "headers" not in kwargs:
             kwargs["headers"] = {}
         for i in header.keys():
@@ -50,7 +50,7 @@ class Api:
         kwargs["params"]["page[size]"] = str(page_size)
         kwargs["params"]["page[number]"] = "1"
         resp = self._request("get", endpoint, **kwargs)
-        self.__api.eval_resp(resp)
+        self.__ftlib.eval_resp(resp)
         pages[0] = resp
         x_total = int(resp.headers.get("x-total"))
         if (x_total <= page_size):
@@ -77,7 +77,7 @@ class Api:
         for i in range(20):
             try:
                 resp = self._request("get", endpoint, **kwargs)
-                self.__api.eval_resp(resp)
+                self.__ftlib.eval_resp(resp)
                 return resp
             except RateLimit as e:
                 time.sleep(2)

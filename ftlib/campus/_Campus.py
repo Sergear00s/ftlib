@@ -1,8 +1,8 @@
 
 
 class Campus:
-    def __init__(self, api) -> None:
-        self.__api = api
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
     
 
     def get_all_campuses(self):
@@ -10,6 +10,6 @@ class Campus:
             returns: list of campuses
             description: Get all campuses
         """
-        data = self.__api.format_page_resp(self.__api.Api.page("/v2/campus"))
-        data = self.__api.extract(data)
+        data = self.__ftlib.format_page_resp(self.__ftlib.Api.page("/v2/campus"))
+        data = self.__ftlib.extract(data)
         return data

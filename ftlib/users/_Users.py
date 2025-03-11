@@ -7,9 +7,9 @@ def __getattr__(name):
     raise AttributeError(f"{name} can't be imported")
 
 class User:
-    def __init__(self, data : dict, api) -> None:
+    def __init__(self, data : dict, ftlib) -> None:
         self.data = data
-        self.__api = api
+        self.__ftlib = ftlib
 
     def add_correction(self, reason: str,amount : int = 1):
         """
@@ -18,9 +18,9 @@ class User:
                 reason (str) : reason,
                 amount (int) : amount. default is 1
         """
-        self.__api.tokener()
-        resp = requests.post(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/add", headers=self.__api.header, data={"amount":amount, "reason":reason})
-        self.__api.eval_resp(resp)
+        self.__ftlib.tokener()
+        resp = requests.post(f"{self.__ftlib.endpoint}/v2/users/{self.login}/correction_points/add", headers=self.__ftlib.header, data={"amount":amount, "reason":reason})
+        self.__ftlib.eval_resp(resp)
 
     def del_correction(self, reason:str, amount : int = 1):
         """
@@ -29,9 +29,9 @@ class User:
                 reason (str) : reason,
                 amount (int) : amount. default is 1
         """
-        self.__api.tokener()
-        resp = requests.delete(f"{self.__api.endpoint}/v2/users/{self.login}/correction_points/remove", headers=self.__api.header, data={"amount":amount, "reason":reason})
-        self.__api.eval_resp(resp)
+        self.__ftlib.tokener()
+        resp = requests.delete(f"{self.__ftlib.endpoint}/v2/users/{self.login}/correction_points/remove", headers=self.__ftlib.header, data={"amount":amount, "reason":reason})
+        self.__ftlib.eval_resp(resp)
 
     
     def get_candidate_data(self) -> dict:
@@ -41,9 +41,9 @@ class User:
                 dict: data 
         """
         #"/v2/users/:user_id/user_candidature"
-        self.__api.tokener()
-        resp = requests.get(f"{self.__api.endpoint}/v2/users/{self.login}/user_candidature", headers=self.__api.header)
-        self.__api.eval_resp(resp)
+        self.__ftlib.tokener()
+        resp = requests.get(f"{self.__ftlib.endpoint}/v2/users/{self.login}/user_candidature", headers=self.__ftlib.header)
+        self.__ftlib.eval_resp(resp)
         return resp.json()
 
     def __getattr__(self, name):
@@ -63,8 +63,8 @@ class User:
 
 
 class Users:
-    def __init__(self, api) -> None:
-        self.__api = api
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
 
     def get_user_by_login(self, login : str):
         """
@@ -74,14 +74,14 @@ class Users:
             RETURN:
                 User: User object
         """
-        params = {"filter[login]": login, "filter[primary_campus_id]": self.__api.campus_id}
-        resp : dict = self.__api.Api.page("/v2/users", params=params)
+        params = {"filter[login]": login, "filter[primary_campus_id]": self.__ftlib.campus_id}
+        resp : dict = self.__ftlib.Api.page("/v2/users", params=params)
         keys = resp.keys()
         for i in keys:
             lst = resp[i].json()
             for k in lst:
                 if k["login"] == login:
-                    return User(k, self.__api)
+                    return User(k, self.__ftlib)
         raise UserIdNotFound
     
     def get_users_by_logins(self, login_list : list) -> list:
@@ -92,14 +92,14 @@ class Users:
         """
         rtn = []
         params = {}
-        params["filter[primary_campus_id]"] = self.__api.campus_id
+        params["filter[primary_campus_id]"] = self.__ftlib.campus_id
         that_users = ""
         for i in login_list:
             that_users += "," + str(i)
         params["filter[login]"] = that_users
-        data = self.__api.Api.page("/v2/campus/{}/users".format(self.__api.campus_id), params=params)
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__ftlib.Api.page("/v2/campus/{}/users".format(self.__ftlib.campus_id), params=params)
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return data
     
     
@@ -111,12 +111,12 @@ class Users:
         """
         to = "/v2/cursus/:cursus_id/cursus_users"
         param = {
-            "filter[campus_id]":self.__api.campus_id
+            "filter[campus_id]":self.__ftlib.campus_id
         }
-        #resp : list = self.__api.s_request(requests.get, f"{self.__api.endpoint}/v2/campus/{self.__api.campus_id}/users", headers=self.__api.header)
-        data = self.__api.Api.page("/v2/campus/{}/users".format(campus_id))
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        #resp : list = self.__ftlib.s_request(requests.get, f"{self.__ftlib.endpoint}/v2/campus/{self.__ftlib.campus_id}/users", headers=self.__ftlib.header)
+        data = self.__ftlib.Api.page("/v2/campus/{}/users".format(campus_id))
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return data
 
     def location_stats(self, login : str, begin_at : str = None, end_at : str = None):
@@ -125,5 +125,5 @@ class Users:
             data["begin_at"] = begin_at
         if (end_at):
             data["end_at"] = end_at
-        return self.__api.Api.get("/v2/users/{}/locations_stats".format(login), data=data).json()
+        return self.__ftlib.Api.get("/v2/users/{}/locations_stats".format(login), data=data).json()
 

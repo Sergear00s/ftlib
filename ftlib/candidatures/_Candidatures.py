@@ -4,8 +4,8 @@
 
 
 class Candidatures:
-    def __init__(self, api) -> None:
-        self.__api = api
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
     
 
     def get_user_candidature(self, login : str) -> dict:
@@ -14,7 +14,7 @@ class Candidatures:
             returns: user candidature data
             description: Get user candidature
         """
-        return self.__api.Api.get("/v2/users/{}/user_candidature".format(login))
+        return self.__ftlib.Api.get("/v2/users/{}/user_candidature".format(login))
 
     def get_user_candidatures(
     self, 
@@ -35,9 +35,9 @@ class Candidatures:
             new_key = "filter[{}]".format(i)
             new_val = args[i]
             param[new_key] = new_val
-        data = self.__api.Api.page("/v2/user_candidatures", params=param)
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__ftlib.Api.page("/v2/user_candidatures", params=param)
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return data
 
 

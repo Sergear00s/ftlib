@@ -1,8 +1,8 @@
 import datetime
 
 class Exam:
-    def __init__(self, api) -> None:
-        self.__api = api
+    def __init__(self, ftlib) -> None:
+        self.__ftlib = ftlib
 
 
     def create_exam(self, name:str, begin_at : datetime.datetime, end_at: datetime.datetime, location:str, ip_range:str, campus_id:int, project_ids : list, visible : bool = True, max_people : int = None,  activate_waitlist : bool = False):
@@ -31,16 +31,16 @@ class Exam:
         params["campus_id"] = campus_id
         params["activate_waitlist"] = activate_waitlist
         params["project_ids"] = project_ids
-        data = self.__api.Api.post("/v2/exams", json={"exam": params})
+        data = self.__ftlib.Api.post("/v2/exams", json={"exam": params})
 
     def get_exams(self, campus_id : int):
         """
             campus_id : int
             returns: list of exams of a campus
         """
-        data = self.__api.Api.page("/v2/campus/{}/exams".format(campus_id))
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__ftlib.Api.page("/v2/campus/{}/exams".format(campus_id))
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return(data)
 
     def update_exam(self, exam_id: int, name : str = None,
@@ -85,7 +85,7 @@ class Exam:
         for i in keyss:
             if (params[i] != None):
                 data[i] = params[i] 
-        data = self.__api.Api.put("/v2/exams/{}".format(exam_id), json={"exam": data})
+        data = self.__ftlib.Api.put("/v2/exams/{}".format(exam_id), json={"exam": data})
         return data
 
     def delete_exam(self, exam_id : int):
@@ -93,7 +93,7 @@ class Exam:
             exam_id : int
             description: Delete an exam
         """
-        data = self.__api.Api.delete("/v2/exams/{}".format(exam_id))
+        data = self.__ftlib.Api.delete("/v2/exams/{}".format(exam_id))
         return data
         
     def get_exam_users_by_exam_id(self, exam_id : int):
@@ -104,9 +104,9 @@ class Exam:
         """
         params = {}
         params["filter[exam_id]"] = exam_id
-        data = self.__api.Api.page("/v2/exams/{}/exams_users".format(exam_id), params=params)
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__ftlib.Api.page("/v2/exams/{}/exams_users".format(exam_id), params=params)
+        data = self.__ftlib.format_page_resp(data)
+        data = self.__ftlib.extract(data)
         return data
     
     def upload_exam_users(self, user_id_list : list, exam_id : int):
@@ -115,14 +115,14 @@ class Exam:
             exam_id : int
             description: Upload exam users
         """
-        users = self.__api.Users.get_users_by_logins(user_id_list)
+        users = self.__ftlib.Users.get_users_by_logins(user_id_list)
         ids = []
         for x in users:
             ids.append(str(x["id"]))
         raw = ", ".join(ids)
         param = {}
         param["exams_user[user_id]"] = raw
-        data = self.__api.Api.post("/v2/exams/{}/exams_users".format(exam_id), params=param)
+        data = self.__ftlib.Api.post("/v2/exams/{}/exams_users".format(exam_id), params=param)
         return data
     def delete_exam_user(self, exam_id : int, user_id : str):
         """
@@ -130,5 +130,5 @@ class Exam:
             user_id : str
             description: Delete an exam user
         """
-        data = self.__api.Api.post("/v2/exams/{}/exams_users/{}".format(exam_id, user_id))
+        data = self.__ftlib.Api.post("/v2/exams/{}/exams_users/{}".format(exam_id, user_id))
 
