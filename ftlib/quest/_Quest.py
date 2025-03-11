@@ -1,8 +1,9 @@
-
+from ..api import Api
+from ..credentials import Credentials
 
 class Quest:
-    def __init__(self, ftlib) -> None:
-        self.__ftlib = ftlib
+    def __init__(self, credentials : Credentials) -> None:
+        self.__api = Api(credentials)
     
     def get_user_quests(self, user_id : str):
         """
@@ -10,9 +11,7 @@ class Quest:
             returns: list of user quests
             description: Get user quests
         """
-        data = self.__ftlib.Api.page("/v2/users/{}/quests".format(user_id))
-        data = self.__ftlib.format_page_resp(data)
-        data = self.__ftlib.extract(data)
+        data = self.__api.page("/v2/users/{}/quests".format(user_id))
         return data
     
     def get_campus_users_quests(self, campus_id : int, quest_id_list : list):
@@ -21,9 +20,7 @@ class Quest:
          """
          quest_id_list = [str(x) for x in quest_id_list]
          formated = ", ".join(quest_id_list)
-         data = self.__ftlib.Api.page("/v2/quests_users", params={"filter[campus_id]":campus_id, "filter[quest_id]": formated})
-         data = self.__ftlib.format_page_resp(data)
-         data = self.__ftlib.extract(data)
+         data = self.__api.page("/v2/quests_users", params={"filter[campus_id]":campus_id, "filter[quest_id]": formated})
          return data
     
 
@@ -33,7 +30,5 @@ class Quest:
 
         user_format = ", ".join(user_list)
         print(user_format)
-        data = self.__ftlib.Api.page("/v2/quests/{}/quests_users".format(quest_id), params={"filter[user_id]": user_format})
-        data = self.__ftlib.format_page_resp(data)
-        data = self.__ftlib.extract(data)
+        data = self.__api.page("/v2/quests/{}/quests_users".format(quest_id), params={"filter[user_id]": user_format})
         return data

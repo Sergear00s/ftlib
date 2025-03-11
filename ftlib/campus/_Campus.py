@@ -1,15 +1,14 @@
-
+from ..credentials import Credentials
+from ..api import Api
 
 class Campus:
-    def __init__(self, ftlib) -> None:
-        self.__ftlib = ftlib
-    
+    def __init__(self, credentials : Credentials) -> None:
+        self.__api = Api(credentials)
 
     def get_all_campuses(self):
         """
             returns: list of campuses
             description: Get all campuses
         """
-        data = self.__ftlib.format_page_resp(self.__ftlib.Api.page("/v2/campus"))
-        data = self.__ftlib.extract(data)
+        data = self.__api.page("/v2/campus")
         return data

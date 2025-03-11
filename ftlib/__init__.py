@@ -1,4 +1,3 @@
-from ._Ftlib import Ftlib
 from .projects._Projects import Projects
 from .cursus._Cursus import Cursus
 from ._Constants import *
@@ -13,12 +12,29 @@ from .achivement._Achivement import Achivement
 from .title import Title
 from .quest import Quest
 from .scale_teams import Scale_teams
+from .evaluations import Evaluations
+from .credentials._Credentials import Credentials
 
-__all__ = ("Ftlib")
 
 def __getattr__(name):
     raise AttributeError(f"{name} can't be imported")
 
 
-def __dir__():
-    return __all__
+
+class ftlib:
+    def __init__(self, creds : Credentials):
+        self.Projects = Projects(creds)
+        self.Cursus = Cursus(creds)
+        self.Journal = Journal(creds)
+        self.Users = Users(creds)
+        self.Transaction = Transaction(creds)
+        self.Campus = Campus(creds)
+        self.Exam = Exam(creds)
+        self.Candidatures = Candidatures(creds)
+        self.Achivement = Achivement(creds)
+        self.Title = Title(creds)
+        self.Quest = Quest(creds)
+        self.Scale_teams = Scale_teams(creds)
+        self.Evaluations = Evaluations(creds)
+        self.Credentials = creds
+        self.Api = Api(creds)

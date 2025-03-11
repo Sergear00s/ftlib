@@ -1,12 +1,10 @@
-import time
-import requests
-import json
-
-__all__ = ["Cursus"]
+from ..credentials import Credentials
+from ..api import Api
 
 class Cursus:
-    def __init__(self, ftlib) -> None:
-        self.__ftlib = ftlib
+    def __init__(self, credentials : Credentials) -> None:
+        self.__api = Api(credentials)
+
         
     def get_user_cursus(self, user_id : str) -> list:
         """
@@ -14,9 +12,7 @@ class Cursus:
             returns: list of user cursus
             description: Get user cursus
         """
-        data = self.__ftlib.Api.page("/v2/users/{}/cursus_users".format(user_id))
-        data = self.__ftlib.format_page_resp(data)
-        data = self.__ftlib.extract(data)
+        data = self.__api.page("/v2/users/{}/cursus_users".format(user_id))
         return data
 
     def get_campus_cursus_users(self, campus_id: int, cursus_id : int) -> list:
@@ -29,11 +25,6 @@ class Cursus:
         params = {
             "filter[campus_id]": campus_id,        
         }
-        data = self.__ftlib.Api.page("/v2/cursus/{}/cursus_users".format(cursus_id), params=params)
-        data = self.__ftlib.format_page_resp(data)
-        data = self.__ftlib.extract(data)
+        data = self.__api.page("/v2/cursus/{}/cursus_users".format(cursus_id), params=params)
         return data
     
-
-def __getattr__(name):
-    raise AttributeError(f"{name} can't be imported")

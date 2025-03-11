@@ -1,8 +1,9 @@
-
+from ..api import Api
+from ..credentials import Credentials
 
 class Achivement:
-    def __init__(self, root) -> None:
-        self.__api = root
+    def __init__(self, credentials : Credentials) -> None:
+        self.__api = Api(credentials)
 
     def get_campus_achievements(self, campus_id : int):
         """
@@ -10,9 +11,7 @@ class Achivement:
             returns: list of campus achivements
             description: Get all achivements of a campus
         """
-        data = self.__api.Api.page("/v2/campus/{}/achievements".format(campus_id))
-        data = self.__api.format_page_resp(data)
-        data = self.__api.extract(data)
+        data = self.__api.page("/v2/campus/{}/achievements".format(campus_id))
         return data
         
     def achieve(self, user_id : str, achivement_id : int):
@@ -21,4 +20,4 @@ class Achivement:
             achivement_id : int
             description: Give an achivement to a user
         """
-        resp = self.__api.Api.post("/v2/achievements_users", json={"achievement_id": achivement_id, "user_id":user_id})
+        resp = self.__api.post("/v2/achievements_users", json={"achievement_id": achivement_id, "user_id":user_id})
