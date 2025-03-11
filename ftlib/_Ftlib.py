@@ -15,7 +15,7 @@ from .achivement import Achivement
 from .title import Title
 from .quest import Quest
 from .api import Api
-
+from .scale_teams import Scale_teams
 from ._Constants import CAMPUS_ISTANBUL
 
 
@@ -53,6 +53,7 @@ class Ftlib():
         self.Exam = Exam(self)
         self.Achivement = Achivement(self)
         self.Title = Title(self)
+        self.Scale_teams = Scale_teams(self)
         ##end public
         self.campus_id = campus_id
         self.secret = intra_secret

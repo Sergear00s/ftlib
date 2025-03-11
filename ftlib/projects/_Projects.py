@@ -14,20 +14,12 @@ class Projects():
             final_mark : int
             description: Update project mark
         """
-        resp = requests.patch(f"{self.__api.endpoint}/v2/projects_users/{project_id}", headers=self.__api.header, data={
-             "projects_user": 
-             {
-                 "final_mark": str(final_mark),
-             }
-        })
-        self.__api.eval_resp(resp)
-        return None
+        data = self.__api.Api.patch("/v2/projects_users/{}".format(project_id), json={"projects_user": {"final_mark": final_mark}})
+        return data
     #todo: 
     def delete_evaluate(self):
         pass
 
-
-    #todo:
 
     def get_projects(self, cursus_id : int):
         """
