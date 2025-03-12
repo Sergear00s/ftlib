@@ -1,24 +1,33 @@
 from ..exceptions._Exceptions import UserIdNotFound
 from ..api import Api
 from ..credentials import Credentials
+from ..data import *
+
+
 
 class Users:
     def __init__(self, credentials : Credentials) -> None:
         self.__api = Api(credentials)
 
-    def get_user_by_login(self, login : str):
+    def get_user_by_login(self, login : str, campus_id : int) -> UserData:
         """
             Returns User object by given login.
             ARGS:
                 login: user login,
+                campus_id: campus id
             RETURN:
-                User: User object
+                User: User data dict
         """
-        params = {"filter[login]": login, "filter[primary_campus_id]": self.__ftlib.campus_id}
+        params = {"filter[login]": login, "filter[primary_campus_id]": campus_id}
         resp = self.__api.page("/v2/users", params=params)
-        raise resp
+        if len(resp) == 0:
+            raise UserIdNotFound("User not found.")
+        if resp[0]["login"] != login:
+            raise UserIdNotFound("User not found.")
+        user = UserData(resp[0])
+        return user
     
-    def get_users_by_logins(self, login_list : list, campus_id : int) -> list:
+    def get_users_by_logins(self, login_list : list, campus_id : int) -> list[UserData]:
         """
             Returns list of User object.
             RETURN:
@@ -31,6 +40,8 @@ class Users:
             that_users += "," + str(i)
         params["filter[login]"] = that_users
         data = self.__api.page("/v2/campus/{}/users".format(campus_id), params=params)
+        for i in range(len(data)):
+            data[i] = UserData(data[i])
         return data
     
     def get_campus_users(self, campus_id : int):

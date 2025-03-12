@@ -1,6 +1,6 @@
 from ..api import Api
 from ..credentials import Credentials
-
+from ..data import ProjectData
 
 class Projects():
 
@@ -19,13 +19,14 @@ class Projects():
     def delete_evaluate(self):
         pass
 
-
     def get_projects(self, cursus_id : int):
         """
             cursus_id : int
             returns: list of projects of a cursus
         """
         data = self.__api.page("/v2/cursus/{}/projects".format(cursus_id))
+        for i in range(len(data)):
+            data[i] = ProjectData(data[i])
         return data
     
     def get_projects_by_list(self, project_ids : list, cursus_id):
@@ -36,15 +37,22 @@ class Projects():
         """
         project_ids_ = ", ".join(project_ids)
         data = self.__api.page("/v2/cursus/{}/projects".format(cursus_id), params={"filter[id]": project_ids_})
+        for i in range(len(data)):
+            data[i] = ProjectData(data[i])
         return data
-    def get_project(self, project_id : int, cursus_id : int):
+    def get_project(self, project_id : int, cursus_id : int) -> ProjectData:
         """
             project_id : int
             cursus_id : int
             returns: project data of a cursus by project id
         """
         data = self.__api.page("/v2/cursus/{}/projects".format(cursus_id), params={"filter[id]": project_id})
-        return data
+        for i in range(len(data)):
+            data[i] = ProjectData(data[i])
+        for i in data:
+            if i.id == project_id:
+                return i
+        return None
 
     def get_user_project(self, user_id : str, project_id : str):
         """

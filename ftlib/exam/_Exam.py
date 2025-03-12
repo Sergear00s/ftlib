@@ -1,6 +1,7 @@
 import datetime
 from ..api import Api
 from ..credentials import Credentials
+from ..data import ExamData
 
 class Exam:
     def __init__(self, credentials : Credentials) -> None:
@@ -34,13 +35,19 @@ class Exam:
         params["project_ids"] = project_ids
         data = self.__api.post("/v2/exams", json={"exam": params})
 
-    def get_exams(self, campus_id : int):
+    def get_exams(self, campus_id : int, before_days : int = None) -> list[ExamData]:
         """
             campus_id : int
             returns: list of exams of a campus
         """
-        data = self.__api.page("/v2/campus/{}/exams".format(campus_id))
-        return(data)
+        params = {}
+        if (before_days):
+            delta = datetime.timedelta(days=before_days)
+            params["range[begin_at]"] = (datetime.datetime.now() - delta).isoformat(timespec='milliseconds') + 'Z' + "," + datetime.datetime.now().isoformat(timespec='milliseconds') + 'Z'
+        data = self.__api.page("/v2/campus/{}/exams".format(campus_id), params=params)
+        for i in range(len(data)):
+            data[i] = ExamData(data[i])
+        return data
 
     def update_exam(self, exam_id: int, name : str = None,
                     begin_at : str = None, 

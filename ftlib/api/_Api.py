@@ -8,12 +8,12 @@ from ..credentials import Credentials
 
 class Api:
     def __init__(self, credentials : Credentials) -> None:
-        self.__credentials = credentials
+        self._credentials = credentials
 
     def _request(self, method : str, endpoint : str, **kwargs):
-        self.__credentials.tokener()
-        header = self.__credentials.header
-        url = self.__credentials.endpoint + endpoint
+        self._credentials.tokener()
+        header = self._credentials.header
+        url = self._credentials.endpoint + endpoint
         if "headers" not in kwargs:
             kwargs["headers"] = {}
         for i in header.keys():
@@ -84,7 +84,7 @@ class Api:
         for i in range(20):
             try:
                 resp = self._request("get", endpoint, **kwargs)
-                #self.__credentials.eval_resp(resp)
+                #self._credentials.eval_resp(resp)
                 return resp
             except RateLimit as e:
                 time.sleep(2)

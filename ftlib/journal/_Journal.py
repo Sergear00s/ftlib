@@ -1,5 +1,8 @@
 from ..api import Api
 from ..credentials import Credentials
+from ..data import JournalData
+
+##todo
 
 class Journal():
     def __init__(self, credentials : Credentials) -> None:
@@ -12,6 +15,8 @@ class Journal():
         for i in lst:
             params[i] = keys[i]
         data = self.__api.page("/v2/campus/{}/journals".format(campus_id), params=params, data=data)
+        for i in range(len(data)):
+            data[i] = JournalData(data)
         return data
     
     def get_evo(self, campus_id : int, login:str, begin_at:str, end_at:str):
@@ -20,7 +25,7 @@ class Journal():
             begin_at: "yyy-mm-dd",
             end_at: "yyy-mm-dd"
         """
-        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__ftlib.Users.get_user_by_login(login)}.id)
+        return self.__journal(campus_id, begin_at=begin_at, end_at=end_at, keys={"filter[item_type]":"ScaleTeam",  "filter[user_id]" :self.__ftlib.Users.get_user_by_login(login).id})
     
     def get_intra_usage(self, campus_id : int, login:str, begin_at:str, end_at:str):
         """
