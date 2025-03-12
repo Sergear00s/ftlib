@@ -5,4 +5,4 @@
 ## To install
 
 ```bash
-pip install git+https://github.com/Sergear00s/ftlib
+pip install git+https://github.com/gearserg/ftlib
