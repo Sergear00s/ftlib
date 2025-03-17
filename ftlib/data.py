@@ -330,7 +330,7 @@ class AchivementData:
     nbr_of_success: int = None
     users_url: str = None
     achievements: list = None
-    parent: str = None
+    parent: "AchivementData" = None
     title: str = None
     def __init__(self, data: dict = None):
         if data is None:
