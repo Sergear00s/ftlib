@@ -1,7 +1,23 @@
 from dataclasses import dataclass
 
+class Data_base:
+    def keys(self):
+        return self.__dict__.keys()
+    
+    def unpack(self):
+        keys = self.keys()
+        rtn = {}
+        for key in keys:
+            if key == "raw":
+                continue
+            if getattr(self, key) is isinstance(getattr(self, key), Data_base):
+                rtn[key] = getattr(self, key).unpack()
+            else:
+                rtn[key] = getattr(self, key)
+        return rtn
+    
 @dataclass
-class CursusData:
+class CursusData(Data_base):
     id: int = None
     created_at: str = None
     name: str = None
@@ -16,7 +32,7 @@ class CursusData:
             setattr(self, key, data[key])
 
 @dataclass
-class VersionsData:
+class VersionsData(Data_base):
     large: str = None
     medium: str = None
     small: str = None
@@ -30,7 +46,7 @@ class VersionsData:
             setattr(self, key, data[key])
 
 @dataclass
-class ProjectData:
+class ProjectData(Data_base):
     id: int = None
     name: str = None
     slug: str = None
@@ -50,7 +66,7 @@ class ProjectData:
         for key in data.keys():
             setattr(self, key, data[key])
 @dataclass
-class LanguageData:
+class LanguageData(Data_base):
     id: int = None
     name: str = None
     identifier: str = None
@@ -65,7 +81,7 @@ class LanguageData:
             setattr(self, key, data[key])
 
 @dataclass
-class CampusData:
+class CampusData(Data_base):
     id: int = None
     name: str = None
     time_zone: str = None
@@ -93,7 +109,7 @@ class CampusData:
             else:
                 setattr(self, key, data[key])
 @dataclass
-class ExamData:
+class ExamData(Data_base):
     id: int = None
     ip_range: str = None
     begin_at: str = None
@@ -130,7 +146,7 @@ class ExamData:
 
 
 @dataclass
-class ImageData:
+class ImageData(Data_base):
     link: str = None
     versions: VersionsData = None
     def __init__(self, data: dict = None):
@@ -143,7 +159,7 @@ class ImageData:
             else:
                 setattr(self, key, data[key])
 @dataclass
-class UserData:
+class UserData(Data_base):
     id: int = None
     email: str = None
     login: str = None
@@ -181,7 +197,7 @@ class UserData:
                 setattr(self, key, data[key])
 
 @dataclass
-class CandidateData:
+class CandidateData(Data_base):
     id: int = None
     user_id: int = None
     birth_date: str = None
@@ -221,7 +237,7 @@ class CandidateData:
             setattr(self, key, data[key])
 
 @dataclass
-class CursusUserData:
+class CursusUserData(Data_base):
     id: int = None
     begin_at: str = None
     end_at: str = None
@@ -250,7 +266,7 @@ class CursusUserData:
 
 
 @dataclass
-class JournalData:
+class JournalData(Data_base):
     id: int = None
     user_id: int = None
     cursus_id: int = None
@@ -270,7 +286,7 @@ class JournalData:
             setattr(self, key, data[key])
 
 @dataclass
-class LocationData:
+class LocationData(Data_base):
     id: int = None
     begin_at: str = None
     end_at: str = None
@@ -292,7 +308,7 @@ class LocationData:
                 setattr(self, key, data[key])
     
 @dataclass
-class TransactionData:
+class TransactionData(Data_base):
     id: int = None
     user_id: int = None
     item_id: int = None
@@ -319,7 +335,7 @@ class TransactionData:
 
         
 @dataclass
-class AchivementData:
+class AchivementData(Data_base):
     id: int = None
     name: str = None
     description: str = None
@@ -344,7 +360,7 @@ class AchivementData:
                 setattr(self, key, data[key])
 
 @dataclass
-class AchivementUserData:
+class AchivementUserData(Data_base):
     id: int = None
     user_id: int = None
     login: str = None
