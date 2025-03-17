@@ -338,7 +338,8 @@ class AchivementData:
         self.raw = data
         for key in data.keys():
             if key == "parent":
-                setattr(self, key, AchivementData(data[key]))
+                if data[key] is not None:
+                    setattr(self, key, AchivementData(data[key]))
             else:
                 setattr(self, key, data[key])
 
