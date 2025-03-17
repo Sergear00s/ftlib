@@ -10,7 +10,8 @@ class Data_base:
         for key in keys:
             if key == "raw":
                 continue
-            if getattr(self, key) is isinstance(getattr(self, key), Data_base):
+            is_instance = isinstance(getattr(self, key), Data_base)
+            if is_instance:
                 rtn[key] = getattr(self, key).unpack()
             else:
                 rtn[key] = getattr(self, key)
