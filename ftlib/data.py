@@ -337,7 +337,10 @@ class AchivementData:
             raise ValueError("Data is required.")
         self.raw = data
         for key in data.keys():
-            setattr(self, key, data[key])
+            if key == "parent":
+                setattr(self, key, AchivementData(data[key]))
+            else:
+                setattr(self, key, data[key])
 
 @dataclass
 class AchivementUserData:
