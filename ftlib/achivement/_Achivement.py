@@ -1,11 +1,12 @@
 from ..api import Api
 from ..credentials import Credentials
+from ..data import AchivementData
 
 class Achivement:
     def __init__(self, credentials : Credentials) -> None:
         self.__api = Api(credentials)
 
-    def get_campus_achievements(self, campus_id : int):
+    def get_campus_achievements(self, campus_id : int) -> list[AchivementData]:
         """
             campus_id : int
             returns: list of campus achivements
