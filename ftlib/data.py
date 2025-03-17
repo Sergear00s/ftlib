@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 @dataclass
 class CursusData:
     id: int = None
@@ -219,8 +220,6 @@ class CandidateData:
         for key in data.keys():
             setattr(self, key, data[key])
 
-
-
 @dataclass
 class CursusUserData:
     id: int = None
@@ -250,7 +249,6 @@ class CursusUserData:
                 setattr(self, key, data[key])
 
 
-
 @dataclass
 class JournalData:
     id: int = None
@@ -270,7 +268,6 @@ class JournalData:
         self.raw = data
         for key in data.keys():
             setattr(self, key, data[key])
-
 
 @dataclass
 class LocationData:
@@ -321,3 +318,37 @@ class TransactionData:
                 setattr(self, key, data[key])
 
         
+@dataclass
+class AchivementData:
+    id: int = None
+    name: str = None
+    description: str = None
+    tier: str = None
+    kind: str = None
+    visible: bool = None
+    image: str = None
+    nbr_of_success: int = None
+    users_url: str = None
+    achievements: list = None
+    parent: str = None
+    title: str = None
+    def __init__(self, data: dict = None):
+        if data is None:
+            raise ValueError("Data is required.")
+        self.raw = data
+        for key in data.keys():
+            setattr(self, key, data[key])
+
+@dataclass
+class AchivementUserData:
+    id: int = None
+    user_id: int = None
+    login: str = None
+    url: str = None
+    created_at: str = None
+    def __init__(self, data: dict = None):
+        if data is None:
+            raise ValueError("Data is required.")
+        self.raw = data
+        for key in data.keys():
+            setattr(self, key, data[key])

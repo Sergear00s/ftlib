@@ -12,6 +12,8 @@ class Achivement:
             description: Get all achivements of a campus
         """
         data = self.__api.page("/v2/campus/{}/achievements".format(campus_id))
+        for i in range(len(data)):
+            data[i] = AchivementData(data[i])
         return data
         
     def achieve(self, user_id : str, achivement_id : int):
