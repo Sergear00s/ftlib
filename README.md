@@ -46,11 +46,7 @@ pip install git+https://github.com/serg00ns/ftlib
 
 ## Contributing
 
-Free to fork the repository, improve the code, and submit merge requests.
-
-## License
-
-FTLIB is licensed under the MIT License. See the `LICENSE` file for details.
+Fork the repository, improve the code, and merge request.
 
 ---
 
